@@ -1,0 +1,123 @@
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+    
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Persona {
+  id        String     @id  @default(uuid()) // @default(autoincrement())
+  nombre     String
+  apellido   String?
+  published Boolean @default(false)
+  usuario Usuario?
+  sucursal Sucursal?
+  ventas Ventas[]
+  vehiculo Vehiculo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Usuario {
+  id    String     @id @default(uuid())
+  username String  @unique @db.VarChar(50)
+  password  String @db.VarChar(255)
+  role UserRole @default(INVERSIONISTA)
+  persona Persona @relation(fields: [personaId], references: [id])
+  createdAt DateTime @default(now())
+  personaId String @unique
+}
+
+model Servicio {
+    id Int @id @default(autoincrement())
+    nombre String
+    ventas Ventas[]
+}
+
+model Sucursal {
+    id String @id @default(uuid())
+    persona Persona @relation(fields: [personaId], references: [id])
+    ventas Ventas[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+}
+
+model Producto {
+    id String @id @default(uuid())
+    nombre String
+    precio Float
+    inventario Inventario?
+    consumoProducto ConsumoProducto[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Inventario {
+    id Int @id @default(autoincrement())
+    producto Producto @relation(fields: [productoId], references: [id])
+    cantidad Int
+    estado Boolean @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    productoId String @unique
+}
+
+model Ventas {
+    id Int @id @default(autoincrement())
+    persona Persona @relation(fields: [personaId], references: [id])
+    sucursal Sucursal @relation(fields: [sucursalId], references: [id])
+    servicio Servicio @relation(fields: [servicioId], references: [id])
+    consumoProducto ConsumoProducto[]
+    estado Boolean @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+    sucursalId String @unique
+    servicioId Int @unique
+}
+
+model ConsumoProducto {
+    // id Int @id @default(autoincrement())
+    producto Producto @relation(fields: [productoId], references: [id])
+    venta Ventas @relation(fields: [ventaId], references: [id])
+    cantidad Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    productoId String @unique
+    ventaId Int @unique
+    @@id([productoId, ventaId])
+}
+
+model Vehiculo {
+    id String @id @default(uuid())
+    placa String
+    marca String
+    modelo String
+    color String
+    anio String
+    persona Persona @relation(fields: [personaId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+}
+
+enum UserRole {
+    INVERSIONISTA
+    EMPLEADO
+    ADMIN
+}
+
+enum tipoVehiculo {
+    MOTO
+    AUTO
+    CAMIONETA
+    VAGONETA
+    CAMION
+    BUS
+    TRACTOR
+    OTRO
+}
