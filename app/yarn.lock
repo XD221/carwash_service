@@ -1161,6 +1161,11 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-native-aes-crypto@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-aes-crypto/-/react-native-aes-crypto-3.0.1.tgz#f9941b9397f62c4603eec8b5f07ca38d075661a2"
+  integrity sha512-51L++eKz13cPeIqg/9Slp1aWIsYOiHzK1jJ9AjcmmtDi3jqtRqdh0y2yJqDI31iBgkQVMz3FjN9zfQ1alj7QBQ==
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
@@ -1180,6 +1185,11 @@ react-router@6.22.0:
   integrity sha512-q2yemJeg6gw/YixRlRnVx6IRJWZD6fonnfZhN1JIOhV2iJCPeRNSH3V1ISwHf+JWcESzLC3BOLD1T07tmO5dmg==
   dependencies:
     "@remix-run/router" "1.15.0"
+
+react-to-print@^2.14.15:
+  version "2.14.15"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-2.14.15.tgz#edb4ce8a92205cf37fd8c3d57de829034aa5c911"
+  integrity sha512-SKnwOzU2cJ8eaAkoJO7+gNhvfEDmm+Y34IdcHsjtHioUevUPhprqbVtvNJlZ2JkGJ8ExK2QNWM9pXECTDR5D8w==
 
 react-transition-group@^4.4.5:
   version "4.4.5"

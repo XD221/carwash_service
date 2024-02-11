@@ -12,6 +12,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { useState } from "react";
+import RutaGeneral from "@route/RutaGeneral";
 
 dayjs.locale("es");
 dayjs.extend(weekday);
@@ -24,7 +25,7 @@ function App() {
 		}
 		return "light";
 	});
-	const router = createBrowserRouter([]);
+	const router = createBrowserRouter(RutaGeneral);
 
 	return (
 		<CssVarsProvider>

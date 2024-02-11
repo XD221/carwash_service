@@ -104,11 +104,13 @@
     "lib": ["dom", "dom.iterable", "esnext"],    
     "types": ["vite/client"],
     "isolatedModules": true,
-    
-  },
-  "paths": {
+    "paths": {
       "types/*": [
         "src/types/*"
       ],
+      "@route/*": [
+        "src/routes/*"
+      ],
     },
+  },
 }

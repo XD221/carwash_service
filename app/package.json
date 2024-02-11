@@ -11,7 +11,9 @@
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-native-aes-crypto": "^3.0.1",
     "react-router-dom": "^6.22.0",
+    "react-to-print": "^2.14.15",
     "vite": "^5.1.1",
     "vite-plugin-biome": "^1.0.8",
     "vite-tsconfig-paths": "^4.3.1",
@@ -22,12 +24,15 @@
   },
   "scripts": {
     "dev": "biome dev",
-    "build": "biome build"
+    "start": "vite --host",
+    "build": "tsc && biome build && vite build",
+    "preview": "vite preview"
   },
   "name": "defensa_publica",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/XD221/defensa_publica.git",
   "author": "Decx",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module"
 }

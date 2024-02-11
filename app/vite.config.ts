@@ -21,9 +21,7 @@ export default defineConfig({
   },
   resolve: {
     alias:{
-      '@cpages': '/src/pages/contable',
-      '@clpages' : '/src/pages/cliente',
-      
+      '@route': '/src/routes',      
     }
   }
 })
