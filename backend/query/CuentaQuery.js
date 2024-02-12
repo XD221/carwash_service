@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const login = async (data: { username: string, password: string }) => {
+export const login = async (data) => {
     const { username, password } = data
     const authorization = await prisma.usuario.findFirst({
         where: {
