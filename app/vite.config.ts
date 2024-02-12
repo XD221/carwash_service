@@ -25,6 +25,7 @@ export default defineConfig({
       '@logistics': '/src/logistics',
       '@routes': '/src/routes',
       '@pages': '/src/pages',
+      '@component': '/src/component',
     }
   }
 })

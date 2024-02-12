@@ -5,9 +5,9 @@ const getInfoName = () => {
     return btoa(VITE_REACT_APP_INFO_NAME)
 }
 
-const authorization = () => {
+const authorization = (params: unknown, next: Function, pathname: string) => {
     const getUserInfo = localStorage.getItem(getInfoName())
-    if(!getUserInfo) return false
+    if(!getUserInfo) if(pathname !== '/cuenta/login') next('/cuenta/login')
 }
 
 export default authorization

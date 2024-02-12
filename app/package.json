@@ -4,7 +4,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.9",
-    "@mui/material": "^5.15.9",
+    "@mui/material": "^5.15.10",
     "@mui/system": "^5.15.9",
     "@types/react": "^18.2.55",
     "@vitejs/plugin-react": "^4.2.1",
@@ -23,15 +23,15 @@
     "@biomejs/biome": "^1.5.3"
   },
   "scripts": {
-    "dev": "biome dev",
+    "dev": "vite -d --host",
     "start": "vite --host",
     "build": "tsc && biome build && vite build",
     "preview": "vite preview"
   },
-  "name": "defensa_publica",
+  "name": "carwash_service",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/XD221/defensa_publica.git",
+  "repository": "https://github.com/XD221/carwash_service.git",
   "author": "Decx",
   "license": "MIT",
   "type": "module"

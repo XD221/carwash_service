@@ -1,7 +1,6 @@
 import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 import {
 	createBrowserRouter,
-	Navigate,
 	RouterProvider,
 } from "react-router-dom";
 import dayjs from "dayjs";
@@ -14,6 +13,9 @@ import "@fontsource/roboto/700.css";
 import { useState } from "react";
 import RutaGeneral from "@routes/RutaGeneral";
 import Index from "./pages";
+import PageNotFound from "@pages/PageNotFound";
+import Middleware from "@component/Middleware";
+import authorization from "./middleware/authorization";
 
 dayjs.locale("es");
 dayjs.extend(weekday);
@@ -28,15 +30,21 @@ function App() {
 	});
 	const router = createBrowserRouter([
 		{
-			path: "/",
-			element: <Index />,
+			element: <Middleware middleware={[authorization]} />,
+			errorElement: <PageNotFound />,
+			children: [
+				{
+					path: '/',
+					element: <Index />,
+				},
+				...RutaGeneral as Array<any>,
+			]
 		},
-		// ...RutaGeneral,
 	]);
 
 	return (
 		<CssVarsProvider>
-			<RouterProvider router={router} />
+			<RouterProvider router={router}  />
 		</CssVarsProvider>
 	);
 }

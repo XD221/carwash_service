@@ -1,41 +1,39 @@
-import { lazy } from "react"
-
-const Admin = import("@routes/AdminRoute")
-const Cuenta = import("@routes/CuentaRoute")
-const Inventario = import("@routes/InventarioRoute")
-const Inversionista = import("@routes/InversionistaRoute")
-const Operador = import("@routes/OperadorRoute")
-const Persona = import("@routes/PersonaRoute")
-const Sucursal = import("@routes/SucursalRoute")
+import Admin from "@routes/AdminRoute"
+import Cuenta from "@routes/CuentaRoute"
+import Inventario from "@routes/InventarioRoute"
+import Inversionista from "@routes/InversionistaRoute"
+import Operador from "@routes/OperadorRoute"
+import Persona from "@routes/PersonaRoute"
+import Sucursal from "@routes/SucursalRoute"
 
 const RutaGeneralRoute = [
     {
         path: 'admin',
-        element: Admin,
+        children: Admin,
     },
     {
         path: 'cuenta',
-        element: Cuenta,
+        children: Cuenta,
     },
     {
         path: 'inventario',
-        element: Inventario,
+        children: Inventario,
     },
     {
         path: 'inversionista',
-        element: Inversionista,
+        children: Inversionista,
     },
     {
         path: 'operador',
-        element: Operador,
+        children: Operador,
     },
     {
         path: 'persona',
-        element: Persona,
+        children: Persona,
     },
     {
         path: 'sucursal',
-        element: Sucursal,
+        children: Sucursal,
     },
 ]
 
