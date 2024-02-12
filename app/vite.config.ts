@@ -21,7 +21,10 @@ export default defineConfig({
   },
   resolve: {
     alias:{
-      '@route': '/src/routes',      
+      '@type': '/src/types',
+      '@logistics': '/src/logistics',
+      '@routes': '/src/routes',
+      '@pages': '/src/pages',
     }
   }
 })

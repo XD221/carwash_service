@@ -1,13 +1,12 @@
 import { lazy } from "react"
 
-// const Index = lazy(() => import("@pages/Index"))
-const Admin = import("@route/AdminRoute")
-const Cuenta = import("@route/CuentaRoute")
-const Inventario = import("@route/InventarioRoute")
-const Inversionista = import("@route/InversionistaRoute")
-const Operador = import("@route/OperadorRoute")
-const Persona = import("@route/PersonaRoute")
-const Sucursal = import("@route/SucursalRoute")
+const Admin = import("@routes/AdminRoute")
+const Cuenta = import("@routes/CuentaRoute")
+const Inventario = import("@routes/InventarioRoute")
+const Inversionista = import("@routes/InversionistaRoute")
+const Operador = import("@routes/OperadorRoute")
+const Persona = import("@routes/PersonaRoute")
+const Sucursal = import("@routes/SucursalRoute")
 
 const RutaGeneralRoute = [
     {

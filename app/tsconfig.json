@@ -105,11 +105,17 @@
     "types": ["vite/client"],
     "isolatedModules": true,
     "paths": {
-      "types/*": [
+      "@type/*": [
         "src/types/*"
       ],
-      "@route/*": [
+      "@logistics/*": [
+        "src/logistics/*"
+      ],
+      "@routes/*": [
         "src/routes/*"
+      ],
+      "@pages/*": [
+        "src/pages/*"
       ],
     },
   },
