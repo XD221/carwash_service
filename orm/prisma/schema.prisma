@@ -1,11 +1,157 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+    
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+model Persona {
+  id        String     @id  @default(cuid()) // @default(autoincrement())
+  nombre     String  @db.VarChar(35)
+  apellido   String? @db.VarChar(40)
+  telefono Int
+  usuario Usuario?
+  sucursal Sucursal?
+  ventas Ventas[]
+  vehiculo Vehiculo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Usuario {
+  id    String     @id @default(cuid())
+  username String  @unique @db.VarChar(50)
+  password  String
+  direccion String  @db.VarChar(255)
+  role UserRole @default(INVERSIONISTA)
+  persona Persona @relation(fields: [personaId], references: [id])
+  createdAt DateTime @default(now())
+  personaId String @unique
+}
+
+model Servicio {
+    id Int @id @default(autoincrement())
+    nombre String @db.VarChar(60)
+    consumoServicio ConsumoServicio[]
+}
+
+model Sucursal {
+    id String @id @default(cuid())
+    persona Persona @relation(fields: [personaId], references: [id])
+    ventas Ventas[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+}
+
+model Producto {
+    id String @id @default(cuid())
+    nombre String @db.VarChar(35)
+    precio Float
+    inventario Inventario?
+    consumoProducto ConsumoProducto[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Inventario {
+    id Int @id @default(autoincrement())
+    producto Producto @relation(fields: [productoId], references: [id])
+    cantidad Int
+    estado Boolean @default(true) // true: Activo, false: Inactivo
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    productoId String @unique
+}
+
+model Ventas {
+    id Int @id @default(autoincrement())
+    detalle String @db.VarChar(500)
+    persona Persona @relation(fields: [personaId], references: [id])
+    sucursal Sucursal @relation(fields: [sucursalId], references: [id])
+    consumoProducto ConsumoProducto[]
+    consumoServicio ConsumoServicio[]
+    vehiculoMantenimiento VehiculoMantenimiento[]
+    estado Boolean @default(true) // true: Activo, false: Inactivo
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+    sucursalId String @unique
+    servicioId Int @unique
+}
+
+model VehiculoMantenimiento {
+    id Int @id @default(autoincrement())
+    vehiculo Vehiculo @relation(fields: [vehiculoId], references: [id])
+    venta Ventas @relation(fields: [ventaId], references: [id])
+    estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    vehiculoId String @unique
+    ventaId Int @unique
+}
+
+model ConsumoServicio {
+    servicio Servicio @relation(fields: [servicioId], references: [id])
+    venta Ventas @relation(fields: [ventaId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    servicioId Int @unique
+    ventaId Int @unique
+    @@id([servicioId, ventaId])
+
+}
+
+model ConsumoProducto {
+    // id Int @id @default(autoincrement())
+    producto Producto @relation(fields: [productoId], references: [id])
+    venta Ventas @relation(fields: [ventaId], references: [id])
+    cantidad Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    productoId String @unique
+    ventaId Int @unique
+    @@id([productoId, ventaId])
+}
+
+model Vehiculo {
+    id String @id @default(cuid())
+    placa String @db.VarChar(60)
+    marca String @db.VarChar(60)
+    modelo String @db.VarChar(60)
+    color String @db.VarChar(20)
+    anio String @db.VarChar(4)
+    tipoVehiculo TipoVehiculo @default(AUTO)
+    persona Persona @relation(fields: [personaId], references: [id])
+    vehiculoMantenimiento VehiculoMantenimiento[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    personaId String @unique
+}
+
+model tarifaTipoVehiculo {
+    id Int @id @default(autoincrement())
+    tipoVehiculo TipoVehiculo @default(AUTO)
+    tarifa Float
+    createdAt DateTime @default(now())
+}
+
+enum UserRole {
+    INVERSIONISTA
+    Operadores
+    ADMIN
+}
+
+enum TipoVehiculo {
+    MOTO
+    AUTO
+    CAMIONETA
+    VAGONETA
+    CAMION
+    BUS
+    TRACTOR
+    OTRO
 }
