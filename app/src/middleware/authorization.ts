@@ -7,7 +7,8 @@ const getInfoName = () => {
 
 const authorization = (params: unknown, next: Function, pathname: string) => {
     const getUserInfo = localStorage.getItem(getInfoName())
-    if(!getUserInfo) if(pathname !== '/cuenta/login') next('/cuenta/login')
+    if(!getUserInfo && pathname !== '/cuenta/login') return next('/cuenta/login')
+    return next()
 }
 
 export default authorization

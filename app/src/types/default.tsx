@@ -16,3 +16,5 @@ export type TContextData = {
   data?: typeof useData
   method?: typeof useMethod
 }
+
+export type middlewareResult = (params: unknown, next: Function, pathname: string) => { success: boolean, data: unknown }
