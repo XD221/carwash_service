@@ -37,7 +37,7 @@ function App() {
 					path: '/',
 					element: <Index />,
 				},
-				...RutaGeneral as Array<any>,
+				...RutaGeneral,
 			]
 		},
 	]);

@@ -17,4 +17,8 @@ export type TContextData = {
   method?: typeof useMethod
 }
 
-export type middlewareResult = (params: unknown, next: Function, pathname: string) => { success: boolean, data: unknown }
+export type middlewareResult = (params: unknown, next: TNext, pathname: string) => { success: boolean, data: unknown }
+
+export type TNext = (route?: string) => { success: boolean, data: unknown }
+
+export type URLSearchParamsInit = string | URLSearchParams | Record<string, string> | [string,string][];
