@@ -9,10 +9,11 @@ generator client {
 }
 
 model Persona {
-  id        String     @id  @default(cuid()) // @default(autoincrement())
+  id        Int     @id  @default(autoincrement())
   nombre     String  @db.VarChar(35)
   apellido   String? @db.VarChar(40)
   telefono Int
+  direccion String?  @db.VarChar(255)
   usuario Usuario?
   sucursal Sucursal?
   ventas Ventas[]
@@ -22,14 +23,14 @@ model Persona {
 }
 
 model Usuario {
-  id    String     @id @default(cuid())
+  id    Int     @id @default(autoincrement())
   username String  @unique @db.VarChar(50)
   password  String
-  direccion String  @db.VarChar(255)
   role UserRole @default(INVERSIONISTA)
   persona Persona @relation(fields: [personaId], references: [id])
   createdAt DateTime @default(now())
-  personaId String @unique
+  updatedAt DateTime @updatedAt
+  personaId Int @unique
 }
 
 model Servicio {
@@ -39,16 +40,16 @@ model Servicio {
 }
 
 model Sucursal {
-    id String @id @default(cuid())
+    id Int @id @default(autoincrement())
     persona Persona @relation(fields: [personaId], references: [id])
     ventas Ventas[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    personaId String @unique
+    personaId Int @unique
 }
 
 model Producto {
-    id String @id @default(cuid())
+    id Int @id @default(autoincrement())
     nombre String @db.VarChar(35)
     precio Float
     inventario Inventario?
@@ -64,7 +65,7 @@ model Inventario {
     estado Boolean @default(true) // true: Activo, false: Inactivo
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    productoId String @unique
+    productoId Int @unique
 }
 
 model Ventas {
@@ -78,8 +79,8 @@ model Ventas {
     estado Boolean @default(true) // true: Activo, false: Inactivo
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    personaId String @unique
-    sucursalId String @unique
+    personaId Int @unique
+    sucursalId Int @unique
     servicioId Int @unique
 }
 
@@ -90,7 +91,7 @@ model VehiculoMantenimiento {
     estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    vehiculoId String @unique
+    vehiculoId Int @unique
     ventaId Int @unique
 }
 
@@ -112,13 +113,13 @@ model ConsumoProducto {
     cantidad Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    productoId String @unique
+    productoId Int @unique
     ventaId Int @unique
     @@id([productoId, ventaId])
 }
 
 model Vehiculo {
-    id String @id @default(cuid())
+    id Int @id @default(autoincrement())
     placa String @db.VarChar(60)
     marca String @db.VarChar(60)
     modelo String @db.VarChar(60)
@@ -129,7 +130,7 @@ model Vehiculo {
     vehiculoMantenimiento VehiculoMantenimiento[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    personaId String @unique
+    personaId Int @unique
 }
 
 model tarifaTipoVehiculo {
