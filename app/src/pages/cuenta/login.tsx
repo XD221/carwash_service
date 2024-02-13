@@ -11,7 +11,7 @@ import Box from "@mui/material/Box"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
-import { consultBackend, encryptText } from "src/utils/helper"
+import { consultBackend, encryptText, setUserInfo } from "src/utils/helper"
 
 function Copyright({ sx }: { sx: { mt: number; mb: number } }) {
   return (
@@ -36,7 +36,8 @@ export default function Login() {
       .then((response) => {
         if (response.ok) {
           response.json().then((data) => {
-            console.log(data)
+            setUserInfo(data?.data)
+            window.location.reload()
           })
         }
       })

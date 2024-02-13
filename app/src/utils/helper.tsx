@@ -6,9 +6,13 @@ export const encryptText = async (text: string) => {
   return hmacSHA512(text, VITE_REACT_APP_HASH_SECRET).toString()
 }
 
-export const getUserInfo = () => {
+export const getInfoName = () => {
   const { VITE_REACT_APP_INFO_NAME } = import.meta.env
-  const name = btoa(VITE_REACT_APP_INFO_NAME)
+  return btoa(VITE_REACT_APP_INFO_NAME)
+}
+
+export const getUserInfo = () => {
+  const name = getInfoName()
   const content = localStorage.getItem(name)
   try {
     return content ? JSON.parse(atob(content)) : null
@@ -17,16 +21,36 @@ export const getUserInfo = () => {
   }
 }
 
+export const setUserInfo = (newData: {
+  username: string
+  nombre: string
+  apellido: string
+  role: string
+  token: string
+}) => {
+  const name = getInfoName()
+  localStorage.setItem(name, btoa(JSON.stringify(newData)))
+}
+
+export const clearUserInfo = () => {
+  const name = getInfoName()
+  localStorage.removeItem(name)
+}
+
 export const consultBackend = async (
   route: string,
-  consultSettings: {
+  consultSettings?: {
     requestType?: "get" | "post" | "put" | "delete"
     settings?: Parameters<typeof fetch>[1]
     params?: URLSearchParamsInit
   }
 ) => {
   const { VITE_REACT_APP_BACKEND_URL } = import.meta.env
-  const { requestType = "get", settings = {}, params = {} } = consultSettings
+  const {
+    requestType = "get",
+    settings = {},
+    params = {},
+  } = consultSettings ?? {}
   const controller = new AbortController()
   const token = getUserInfo()?.token
   return fetch(

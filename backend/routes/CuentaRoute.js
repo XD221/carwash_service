@@ -1,6 +1,21 @@
 import { login } from "../query/CuentaQuery.js"
 import jwt from "jsonwebtoken"
 
+const getToken = (result) => {
+  const { TOKEN_SECRETKEY } = process.env
+  return jwt.sign(
+    {
+      id: result.id,
+      username: result.username,
+      role: result.role,
+      nombre: result.persona.nombre,
+      apellido: result.persona.apellido,
+    },
+    TOKEN_SECRETKEY,
+    { expiresIn: "20m", algorithm: "HS256" }
+  )
+}
+
 const CuentaRoute = (fastify, options, next) => {
   fastify.get("/login", async (request, reply) => {
     const { username, password } = request.query
@@ -8,19 +23,17 @@ const CuentaRoute = (fastify, options, next) => {
       try {
         const result = await login({ username, password })
         if (result) {
-          const { TOKEN_SECRETKEY } = process.env
-          const token = jwt.sign(
-            {
-              id: result.id,
+          const token = getToken(result)
+          return reply.code(200).send({
+            success: true,
+            data: {
               username: result.username,
               role: result.role,
-              nombre: result.persona.nombre,
-              apellido: result.persona.apellido,
+              nombre: result.nombre,
+              apellido: result.apellido,
+              token,
             },
-            TOKEN_SECRETKEY,
-            { expiresIn: "1h", algorithm: "RS256" }
-          )
-          return reply.code(200).send({ success: true, data: token })
+          })
         }
         return reply
           .code(403)
@@ -40,15 +53,26 @@ const CuentaRoute = (fastify, options, next) => {
   })
 
   fastify.get("/authentication", async (request, reply) => {
-    const { token } = request.query
+    let { token } = request.query
     if (token) {
       try {
         const { TOKEN_SECRETKEY } = process.env
         const result = jwt.verify(token, TOKEN_SECRETKEY)
         const { username, role, nombre, apellido } = result
-        return reply
-          .code(200)
-          .send({ success: true, data: { username, role, nombre, apellido } })
+        const current = new Date()
+        const tokenDate = new Date(result.exp * 1000)
+        tokenDate.setMinutes(tokenDate.getMinutes() - 5)
+        if (current.getTime() >= tokenDate.getTime()) {
+          token = getToken(result)
+          return reply.code(200).send({
+            success: true,
+            data: { username, role, nombre, apellido, token },
+          })
+        }
+        return reply.code(200).send({
+          success: true,
+          data: null,
+        })
       } catch (error) {
         return reply
           .code(403)
@@ -61,6 +85,7 @@ const CuentaRoute = (fastify, options, next) => {
         "No cuenta con los parámetros suficientes para realizar la consulta.",
     })
   })
+
   next()
 }
 
