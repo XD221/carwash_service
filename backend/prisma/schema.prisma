@@ -142,7 +142,7 @@ model tarifaTipoVehiculo {
 
 enum UserRole {
     INVERSIONISTA
-    Operadores
+    OPERADOR
     ADMIN
 }
 

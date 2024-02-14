@@ -33,19 +33,19 @@ const consultAuthorization = async () => {
 const authorization = (params: unknown, next: TNext, pathname: string) => {
   const userInfo = getUserInfo()
   const navigate = useNavigate()
-  if (pathname !== "/cuenta/login") {
+  if (pathname !== "/login") {
     consultAuthorization()
       .then((validation) => {
         if (!validation) {
-          navigate("/cuenta/login", { replace: true })
+          navigate("/login", { replace: true })
         }
       })
       .catch(() => {
-        navigate("/cuenta/login", { replace: true })
+        navigate("/login", { replace: true })
       })
-    if (!userInfo) return next("/cuenta/login")
+    if (!userInfo) return next("/login")
   }
-  if (userInfo && pathname === "/cuenta/login") return next("/")
+  if (userInfo && pathname === "/login") return next("/")
   return next()
 }
 
