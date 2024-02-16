@@ -6,12 +6,16 @@ export type TMessageType = "success" | "info" | "warning" | "error"
 
 export type TUserRole = "ADMIN" | "OPERADOR" | "INVERSIONISTA" | undefined
 
+export type TMode = "light" | "dark"
+
+export type TComponentChildrenParam =
+  | ReactElement<unknown, string | JSXElementConstructor<unknown>>[]
+  | string
+  | null
+  | undefined
+
 export type TProviderParams = {
-  children?:
-    | ReactElement<unknown, string | JSXElementConstructor<unknown>>[]
-    | string
-    | null
-    | undefined
+  children?: TComponentChildrenParam
 }
 
 export type TProvider = ReactElement

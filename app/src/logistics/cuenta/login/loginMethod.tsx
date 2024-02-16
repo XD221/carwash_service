@@ -27,6 +27,9 @@ const onFinish = async (
     })
     .catch((error) => {
       console.error("Error:", error)
+      messageApi("El servicio no responde, intente más tarde.", {
+        type: "error",
+      })
     })
 }
 

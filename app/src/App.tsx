@@ -1,4 +1,7 @@
-import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles"
+import {
+  Experimental_CssVarsProvider as CssVarsProvider,
+  experimental_extendTheme as extendTheme,
+} from "@mui/material/styles"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import dayjs from "dayjs"
 import weekday from "dayjs/plugin/weekday"
@@ -7,7 +10,6 @@ import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
-import { useState } from "react"
 import RutaGeneral from "@routes/RutaGeneral"
 import Index from "./pages"
 import PageNotFound from "@pages/PageNotFound"
@@ -16,22 +18,22 @@ import authorization from "./middleware/authorization"
 import { Alert, AlertTitle, Snackbar } from "@mui/material"
 import Slide, { SlideProps } from "@mui/material/Slide"
 import { useApp } from "./context/AppContext"
+import Layout from "@pages/Layout"
+import { TComponentChildrenParam } from "@type/default"
 
 dayjs.locale("es")
 dayjs.extend(weekday)
 dayjs.extend(localeData)
 
 function App() {
-  const [mode, setMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("mode") ?? "light"
-    }
-    return "light"
-  })
   const app = useApp()
   const router = createBrowserRouter([
     {
-      element: <Middleware middleware={[authorization]} />,
+      element: (
+        <Layout
+          children={(<Middleware middleware={[authorization]} />) as unknown}
+        />
+      ),
       errorElement: (
         <Middleware middleware={[authorization]} children={<PageNotFound />} />
       ),
@@ -44,6 +46,10 @@ function App() {
       ],
     },
   ])
+
+  const theme = extendTheme({
+    cssVarPrefix: "carwash",
+  })
 
   return (
     <CssVarsProvider>
