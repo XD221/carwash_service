@@ -44,7 +44,7 @@ export default function Login() {
         <Box
           component="form"
           onSubmit={(d) =>
-            state.functions.onFinish(d, app.functions.messageApi)
+            state.functions.onFinish(d, state.setData, app.functions.messageApi)
           }
           noValidate
           sx={{ mt: 1 }}
@@ -57,6 +57,12 @@ export default function Login() {
             label="Usuario"
             name="username"
             autoComplete="username"
+            error={state.data.errors.username}
+            helperText={
+              state.data.errors.username
+                ? "El Usuario no debe estar vacía, agregue mínimo 3 dígitos."
+                : ""
+            }
             autoFocus
           />
           <TextField
@@ -67,6 +73,12 @@ export default function Login() {
             label="Contraseña"
             type="password"
             id="password"
+            error={state.data.errors.password}
+            helperText={
+              state.data.errors.password
+                ? "La Contraseña no debe estar vacía, agregue mínimo 3 dígitos."
+                : ""
+            }
             autoComplete="current-password"
           />
           <Button

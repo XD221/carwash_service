@@ -31,7 +31,11 @@ function App() {
     {
       element: (
         <Layout
-          children={(<Middleware middleware={[authorization]} />) as unknown}
+          children={
+            (
+              <Middleware middleware={[authorization]} />
+            ) as any as TComponentChildrenParam
+          }
         />
       ),
       errorElement: (

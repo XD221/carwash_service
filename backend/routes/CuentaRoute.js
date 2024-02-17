@@ -55,28 +55,28 @@ const CuentaRoute = (fastify, options, next) => {
   fastify.get("/authentication", async (request, reply) => {
     let { token } = request.query
     if (token) {
-      try {
-        const { TOKEN_SECRETKEY } = process.env
-        const result = jwt.verify(token, TOKEN_SECRETKEY)
-        const { username, role, nombre, apellido } = result
+      const validateToken = verifyToken(token)
+      if (validateToken.success) {
+        const { username, role, nombre, apellido } = validateToken.data
         const current = new Date()
-        const tokenDate = new Date(result.exp * 1000)
+        const tokenDate = new Date(validateToken.exp * 1000)
         tokenDate.setMinutes(tokenDate.getMinutes() - 5)
         if (current.getTime() >= tokenDate.getTime()) {
-          token = getToken(result)
+          token = getToken(validateToken)
           return reply.code(200).send({
             success: true,
             data: { username, role, nombre, apellido, token },
           })
         }
+
         return reply.code(200).send({
           success: true,
           data: null,
         })
-      } catch (error) {
+      } else {
         return reply
           .code(403)
-          .send({ success: false, message: "Token inválido." })
+          .send({ success: false, message: validateToken.message })
       }
     }
     return reply.code(404).send({
@@ -90,3 +90,16 @@ const CuentaRoute = (fastify, options, next) => {
 }
 
 export default CuentaRoute
+
+export const verifyToken = (token) => {
+  try {
+    const { TOKEN_SECRETKEY } = process.env
+    const result = jwt.verify(token, TOKEN_SECRETKEY)
+    return {
+      success: true,
+      data: result,
+    }
+  } catch (error) {
+    return { success: false, message: "Token inválido." }
+  }
+}

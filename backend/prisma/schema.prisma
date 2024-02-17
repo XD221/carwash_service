@@ -13,6 +13,8 @@ model Persona {
   nombre     String  @db.VarChar(35)
   apellido   String? @db.VarChar(40)
   telefono Int
+  ci String @db.VarChar(15) @unique
+  correo String? @db.VarChar(60)
   direccion String?  @db.VarChar(255)
   usuario Usuario?
   sucursal Sucursal?

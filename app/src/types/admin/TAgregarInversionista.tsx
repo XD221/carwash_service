@@ -3,7 +3,7 @@ import useMethod from "@logistics/admin/agregarInversionista/agregarInversionist
 
 export type TData = ReturnType<typeof useData>
 export type TFunctions = ReturnType<typeof useMethod>
-export type TUseLogin = TUseState & TUseActions
+export type TUseAgregarInversionista = TUseState & TUseActions
 
 type TUseState = {
   data: TData

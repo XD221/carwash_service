@@ -8,11 +8,14 @@ import Button from "@mui/material/Button"
 import Container from "@mui/material/Container"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
+import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import Drawer from "@mui/material/Drawer"
 import MenuIcon from "@mui/icons-material/Menu"
 import ToggleColorMode from "./ToggleColorMode"
 import { useColorScheme } from "@mui/material"
+import MenuController from "./MenuController"
+import { useNavigate } from "react-router-dom"
 
 const logoStyle = {
   width: "140px",
@@ -21,8 +24,10 @@ const logoStyle = {
 }
 
 function HeadBar() {
-  const [open, setOpen] = React.useState(false)
+  const [openDrawer, setOpen] = React.useState(false)
+  const [controlName, setControlName] = React.useState("")
   const { mode, setMode } = useColorScheme()
+  const navigate = useNavigate()
   const toggleColorMode = () => {
     setMode(mode === "light" ? "dark" : "light")
   }
@@ -31,18 +36,29 @@ function HeadBar() {
     setOpen(newOpen)
   }
 
-  const scrollToSection = (sectionId: string) => {
-    const sectionElement = document.getElementById(sectionId)
-    const offset = 128
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset
-      sectionElement.scrollIntoView({ behavior: "smooth" })
-      window.scrollTo({
-        top: targetScroll,
-        behavior: "smooth",
-      })
-      setOpen(false)
-    }
+  // const scrollToSection = (sectionId: string) => {
+  //   const sectionElement = document.getElementById(sectionId)
+  //   const offset = 128
+  //   if (sectionElement) {
+  //     const targetScroll = sectionElement.offsetTop - offset
+  //     sectionElement.scrollIntoView({ behavior: "smooth" })
+  //     window.scrollTo({
+  //       top: targetScroll,
+  //       behavior: "smooth",
+  //     })
+  //     setOpen(false)
+  //   }
+  // }
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setControlName(event.currentTarget.getAttribute("aria-controls") as string)
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = (route?: string) => {
+    setAnchorEl(null)
+    if (route) navigate(route)
   }
 
   return (
@@ -92,48 +108,64 @@ function HeadBar() {
                 src={"/images/logo.png"}
                 style={logoStyle}
                 alt="logo de CARWASH"
+                onClick={() => navigate("/")}
               />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <MenuItem
-                  onClick={() => scrollToSection("features")}
+                <Button
+                  aria-controls="adminMenu"
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Features
+                    Admin
                   </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("testimonials")}
+                </Button>
+                <Button
+                  aria-controls="inventarioMenu"
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Testimonials
+                    Inventario
                   </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("highlights")}
+                </Button>
+                <Button
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Highlights
+                    Inversionista
                   </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("pricing")}
+                </Button>
+                <Button
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Pricing
+                    Operador
                   </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection("faq")}
+                </Button>
+                <Button
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    FAQ
+                    Sucursal
                   </Typography>
-                </MenuItem>
+                </Button>
               </Box>
             </Box>
             <Box
@@ -178,7 +210,11 @@ function HeadBar() {
               >
                 <MenuIcon />
               </Button>
-              <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+              <Drawer
+                anchor="right"
+                open={openDrawer}
+                onClose={toggleDrawer(false)}
+              >
                 <Box
                   sx={{
                     minWidth: "60dvw",
@@ -200,23 +236,48 @@ function HeadBar() {
                       toggleColorMode={toggleColorMode}
                     />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection("features")}>
+                  <Button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
                     Admin
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection("testimonials")}>
+                  </Button>
+                  <Button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
                     Testimonials
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection("highlights")}>
+                  </Button>
+                  <Button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
                     Highlights
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection("pricing")}>
+                  </Button>
+                  <Button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
                     Pricing
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection("faq")}>
+                  </Button>
+                  <Button
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
                     FAQ
-                  </MenuItem>
+                  </Button>
                   <Divider />
-                  <MenuItem>
+                  <Button>
                     <Button
                       color="primary"
                       variant="contained"
@@ -227,13 +288,20 @@ function HeadBar() {
                     >
                       Cerrar sesión
                     </Button>
-                  </MenuItem>
+                  </Button>
                 </Box>
               </Drawer>
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
+      <MenuController
+        id="adminMenu"
+        controlName={controlName}
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+      />
     </div>
   )
 }
