@@ -1,4 +1,4 @@
-import { GridColDef, GridRowsProp } from "@mui/x-data-grid"
+import { GridRowsProp } from "@mui/x-data-grid"
 
 const useData = () => {
   const defaultValues = {
@@ -8,50 +8,28 @@ const useData = () => {
       telefono: false,
     },
     peopleRows: [] as GridRowsProp,
-    peopleColumns: [
-      {
-        field: "nombre",
-        headerName: "Nombre",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-      {
-        field: "apellido",
-        headerName: "Apellido",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-      {
-        field: "ci",
-        headerName: "CI",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-      {
-        field: "telefono",
-        headerName: "Telefono",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-      {
-        field: "correo",
-        headerName: "Correo",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-      {
-        field: "direccion",
-        headerName: "Dirección",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-      },
-    ] as GridColDef[],
+    tabsValue: "tab1",
+    dialog: {
+      open: false,
+      text: "",
+      id: 0,
+      ci: "",
+    },
+    createField: {
+      ci: "",
+      nombre: "",
+      apellido: "",
+      telefono: "",
+      direccion: "",
+      correo: "",
+    },
+    createDireccionFieldFullWidth: false,
+    searchField: {
+      nombre: "",
+      apellido: "",
+      ci: "",
+      telefono: "",
+    },
   }
   return {
     ...defaultValues,

@@ -25,6 +25,8 @@ const CustomTable = ({
       rows={rows}
       columns={columns}
       hideFooter={true}
+      rowHeight={40}
+      columnHeaderHeight={30}
       {...props}
       // rowModesModel={rowModesModel}
       // onRowModesModelChange={handleRowModesModelChange}
