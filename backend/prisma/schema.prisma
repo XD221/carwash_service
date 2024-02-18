@@ -29,6 +29,7 @@ model Usuario {
   username String  @unique @db.VarChar(50)
   password  String
   role UserRole @default(INVERSIONISTA)
+  estado Boolean @default(true) // true: Activo, false: Inactivo
   persona Persona @relation(fields: [personaId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

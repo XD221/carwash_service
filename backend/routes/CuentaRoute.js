@@ -12,7 +12,7 @@ const getToken = (result) => {
       apellido: result.persona.apellido,
     },
     TOKEN_SECRETKEY,
-    { expiresIn: "20m", algorithm: "HS256" }
+    { expiresIn: "80m", algorithm: "HS256" }
   )
 }
 
@@ -53,14 +53,15 @@ const CuentaRoute = (fastify, options, next) => {
   })
 
   fastify.get("/authentication", async (request, reply) => {
-    let { token } = request.query
+    const auth = request.headers.authorization
+    const token = auth.split(" ")[1]
     if (token) {
       const validateToken = verifyToken(token)
       if (validateToken.success) {
         const { username, role, nombre, apellido } = validateToken.data
         const current = new Date()
         const tokenDate = new Date(validateToken.exp * 1000)
-        tokenDate.setMinutes(tokenDate.getMinutes() - 5)
+        tokenDate.setMinutes(tokenDate.getMinutes() - 15)
         if (current.getTime() >= tokenDate.getTime()) {
           token = getToken(validateToken)
           return reply.code(200).send({
@@ -89,8 +90,6 @@ const CuentaRoute = (fastify, options, next) => {
   next()
 }
 
-export default CuentaRoute
-
 export const verifyToken = (token) => {
   try {
     const { TOKEN_SECRETKEY } = process.env
@@ -103,3 +102,5 @@ export const verifyToken = (token) => {
     return { success: false, message: "Token inválido." }
   }
 }
+
+export default CuentaRoute
