@@ -13,15 +13,18 @@ model Persona {
   nombre     String  @db.VarChar(35)
   apellido   String? @db.VarChar(40)
   telefono Int
-  ci String @db.VarChar(15) @unique
+  ci String @db.VarChar(15)
   correo String? @db.VarChar(60)
   direccion String?  @db.VarChar(255)
-  usuario Usuario?
+  creado_en DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+  propietarioId Int?
+  propietario Usuario? @relation("propietario", fields: [propietarioId], references: [id])
+  usuario Usuario? @relation("persona")
   sucursal Sucursal?
   ventas Ventas[]
   vehiculo Vehiculo[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@unique([ci, propietarioId])
 }
 
 model Usuario {
@@ -30,94 +33,117 @@ model Usuario {
   password  String
   role UserRole @default(INVERSIONISTA)
   estado Boolean @default(true) // true: Activo, false: Inactivo
-  persona Persona @relation(fields: [personaId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  creado_en DateTime @default(now())
+  actualizado_en DateTime @updatedAt
   personaId Int @unique
+  persona Persona @relation("persona", fields: [personaId], references: [id])
+  propietario Persona[] @relation("propietario")
+  servicio Servicio[]
+  ventas Ventas[] @relation("encargado")
+  producto Producto[]
+  tarifaTipoVehiculo tarifaTipoVehiculo[]
 }
 
 model Servicio {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(60)
+    descripcion String @db.VarChar(255)
+    propietarioId Int
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    propietario Usuario? @relation(fields: [propietarioId], references: [id])
     consumoServicio ConsumoServicio[]
 }
 
 model Sucursal {
     id Int @id @default(autoincrement())
-    persona Persona @relation(fields: [personaId], references: [id])
+    nombre String @db.VarChar(80)
+    direccion String @db.VarChar(255)
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    propietarioId Int @unique
+    propietario Persona @relation(fields: [propietarioId], references: [id])
     ventas Ventas[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    personaId Int @unique
+    inventario Inventario[]
 }
 
 model Producto {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(35)
     precio Float
-    inventario Inventario?
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    propietarioId Int
+    propietario Usuario? @relation(fields: [propietarioId], references: [id])
     consumoProducto ConsumoProducto[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    inventario Inventario?
 }
 
 model Inventario {
     id Int @id @default(autoincrement())
-    producto Producto @relation(fields: [productoId], references: [id])
     cantidad Int
     estado Boolean @default(true) // true: Activo, false: Inactivo
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
     productoId Int @unique
+    sucursalId Int
+    producto Producto @relation(fields: [productoId], references: [id])
+    sucursal Sucursal @relation(fields: [sucursalId], references: [id])
+    @@unique([productoId, sucursalId])
 }
 
-model Ventas {
+model Ventas { // EL propietario se consigue en la relacion con la sucursal
     id Int @id @default(autoincrement())
     detalle String @db.VarChar(500)
+    estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso 3: Terminada 4: Cancelada 5: Anulada
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    personaId Int
+    sucursalId Int
+    servicioId Int
+    encargadoId Int
     persona Persona @relation(fields: [personaId], references: [id])
     sucursal Sucursal @relation(fields: [sucursalId], references: [id])
+    encargado Usuario @relation("encargado", fields: [encargadoId], references: [id])
     consumoProducto ConsumoProducto[]
     consumoServicio ConsumoServicio[]
     vehiculoMantenimiento VehiculoMantenimiento[]
-    estado Boolean @default(true) // true: Activo, false: Inactivo
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    personaId Int @unique
-    sucursalId Int @unique
-    servicioId Int @unique
 }
 
 model VehiculoMantenimiento {
     id Int @id @default(autoincrement())
+    detalle String @db.VarChar(500)
+    estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    vehiculoId Int
+    ventaId Int
     vehiculo Vehiculo @relation(fields: [vehiculoId], references: [id])
     venta Ventas @relation(fields: [ventaId], references: [id])
-    estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    vehiculoId Int @unique
-    ventaId Int @unique
+    @@unique([vehiculoId, ventaId])
 }
 
 model ConsumoServicio {
+    detalle String @db.VarChar(500)
+    estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    servicioId Int
+    ventaId Int
     servicio Servicio @relation(fields: [servicioId], references: [id])
     venta Ventas @relation(fields: [ventaId], references: [id])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    servicioId Int @unique
-    ventaId Int @unique
     @@id([servicioId, ventaId])
 
 }
 
 model ConsumoProducto {
-    // id Int @id @default(autoincrement())
+    cantidad Int
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    productoId Int
+    ventaId Int
     producto Producto @relation(fields: [productoId], references: [id])
     venta Ventas @relation(fields: [ventaId], references: [id])
-    cantidad Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    productoId Int @unique
-    ventaId Int @unique
     @@id([productoId, ventaId])
 }
 
@@ -128,19 +154,21 @@ model Vehiculo {
     modelo String @db.VarChar(60)
     color String @db.VarChar(20)
     anio String @db.VarChar(4)
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
     tipoVehiculo TipoVehiculo @default(AUTO)
+    personaId Int
     persona Persona @relation(fields: [personaId], references: [id])
     vehiculoMantenimiento VehiculoMantenimiento[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    personaId Int @unique
 }
 
 model tarifaTipoVehiculo {
     id Int @id @default(autoincrement())
-    tipoVehiculo TipoVehiculo @default(AUTO)
     tarifa Float
-    createdAt DateTime @default(now())
+    creado_en DateTime @default(now())
+    tipoVehiculo TipoVehiculo @default(AUTO)
+    propietarioId Int
+    propietario Usuario? @relation(fields: [propietarioId], references: [id])
 }
 
 enum UserRole {
