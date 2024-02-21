@@ -47,6 +47,7 @@ model Usuario {
 model Servicio {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(60)
+    precio Decimal @db.Decimal(9,2)
     descripcion String @db.VarChar(255)
     propietarioId Int
     creado_en DateTime @default(now())
@@ -70,7 +71,7 @@ model Sucursal {
 model Producto {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(35)
-    precio Float
+    precio Decimal @db.Decimal(9,2)
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     propietarioId Int
@@ -95,6 +96,7 @@ model Inventario {
 model Ventas { // EL propietario se consigue en la relacion con la sucursal
     id Int @id @default(autoincrement())
     detalle String @db.VarChar(500)
+    total Decimal @db.Decimal(9,2)
     estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso 3: Terminada 4: Cancelada 5: Anulada
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
@@ -138,6 +140,7 @@ model ConsumoServicio {
 
 model ConsumoProducto {
     cantidad Int
+    subtotal Decimal @db.Decimal(9,2)
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     productoId Int
@@ -164,7 +167,7 @@ model Vehiculo {
 
 model tarifaTipoVehiculo {
     id Int @id @default(autoincrement())
-    tarifa Float
+    tarifa Decimal @db.Decimal(9,2)
     creado_en DateTime @default(now())
     tipoVehiculo TipoVehiculo @default(AUTO)
     propietarioId Int
