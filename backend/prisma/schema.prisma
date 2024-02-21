@@ -115,6 +115,7 @@ model Ventas { // EL propietario se consigue en la relacion con la sucursal
 model VehiculoMantenimiento {
     id Int @id @default(autoincrement())
     detalle String @db.VarChar(500)
+    tarifa Decimal @db.Decimal(9,2)
     estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
