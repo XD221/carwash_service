@@ -60,6 +60,7 @@ model Sucursal {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(80)
     direccion String @db.VarChar(255)
+    estado Boolean @default(true) // true: Activo, false: Inactivo
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     propietarioId Int @unique
@@ -169,6 +170,7 @@ model Vehiculo {
 model tarifaTipoVehiculo {
     id Int @id @default(autoincrement())
     tarifa Decimal @db.Decimal(9,2)
+    estado Boolean @default(true) // true: Activo, false: Inactivo
     creado_en DateTime @default(now())
     tipoVehiculo TipoVehiculo @default(AUTO)
     propietarioId Int
