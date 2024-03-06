@@ -97,59 +97,6 @@ const peopleColumns = (setData: TUseAgregarInversionista["setData"]) => {
   ] as GridColDef[]
 }
 
-// const registrarNuevaPersona_onClick = (
-//   event: React.FormEvent<HTMLFormElement>,
-//   setData: TUseAgregarInversionista["setData"]
-// ) => {
-//   let existError = false
-//   event.preventDefault()
-//   const data = new FormData(event.currentTarget)
-//   const errors = {
-//     ci: false,
-//     nombre: false,
-//     telefono: false,
-//   }
-//   const ci = data.get("ci") as string
-//   const nombre = data.get("nombre") as string
-//   const apellido = data.get("apellido") as string
-//   const telefono = data.get("telefono") as string
-//   const direccion = data.get("direccion") as string
-//   const correo = data.get("correo") as string
-//   if (ci?.length < 1) errors.ci = true
-//   if (nombre?.length < 1) errors.nombre = true
-//   if (telefono?.length < 1) errors.telefono = true
-//   for (const error in errors)
-//     if (errors[error as keyof typeof errors]) {
-//       existError = true
-//       break
-//     }
-//   setData(errors, "errors")
-//   if (!existError) {
-//     consultBackend("persona/buscar", {
-//       params: {
-//         nombre: username,
-//         password: await encryptText(password),
-//       },
-//     })
-//       .then((response) => {
-//         response.json().then((data) => {
-//           if (data?.success) {
-//             setUserInfo(data?.data)
-//             window.location.reload()
-//           } else {
-//             messageApi(data?.message, { type: "error" })
-//           }
-//         })
-//       })
-//       .catch((error) => {
-//         console.error("Error:", error)
-//         messageApi("El servicio no responde, intente más tarde.", {
-//           type: "error",
-//         })
-//       })
-//   }
-// }
-
 const useMethod = (data: TData) => {
   const buscar_onClick = (
     event: React.FormEvent<HTMLFormElement> | null,

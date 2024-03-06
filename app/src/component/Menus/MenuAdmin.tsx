@@ -28,9 +28,9 @@ const MenuAdmin = ({
           Agregar Inversionista
         </Typography>
       </MenuItem>
-      <MenuItem onClick={() => handleClose("/admin/ejemplo-b")}>
+      <MenuItem onClick={() => handleClose("/admin/tarifa-tipo-vehiculo")}>
         <Typography variant="inherit" noWrap>
-          Ejemplo B
+          Tarifa de tipo de vehículo
         </Typography>
       </MenuItem>
       <MenuItem onClick={() => handleClose("/admin/ejemplo-c")}>

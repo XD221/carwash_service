@@ -1,6 +1,5 @@
 import { middlewareResult } from "@type/default"
 import { useLocation, Navigate, Outlet } from "react-router-dom"
-import { M } from "vite/dist/node/types.d-jgA8ss1A"
 
 const Middleware = ({
   children,
