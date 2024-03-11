@@ -104,33 +104,30 @@ const useMethod = (data: TData) => {
     messageApi: TFunctions["messageApi"]
   ) => {
     event?.preventDefault()
-    let existError = false
     const { nombre, apellido, ci, telefono } = data.searchField
-    if (!existError) {
-      consultBackend("persona/buscar-no-inversionista", {
-        params: {
-          nombre: nombre,
-          apellido: apellido,
-          ci: ci,
-          telefono: telefono,
-        },
+    consultBackend("persona/buscar-no-inversionista", {
+      params: {
+        nombre: nombre,
+        apellido: apellido,
+        ci: ci,
+        telefono: telefono,
+      },
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          if (data?.success) {
+            setData({ peopleRows: data?.data })
+          } else {
+            messageApi(data?.message, { type: "error" })
+          }
+        })
       })
-        .then((response) => {
-          response.json().then((data) => {
-            if (data?.success) {
-              setData({ peopleRows: data?.data })
-            } else {
-              messageApi(data?.message, { type: "error" })
-            }
-          })
+      .catch((error) => {
+        console.error("Error:", error)
+        messageApi("El servicio no responde, intente más tarde.", {
+          type: "error",
         })
-        .catch((error) => {
-          console.error("Error:", error)
-          messageApi("El servicio no responde, intente más tarde.", {
-            type: "error",
-          })
-        })
-    }
+      })
   }
   const tabsChange = (
     event: React.SyntheticEvent,
@@ -146,46 +143,65 @@ const useMethod = (data: TData) => {
     setData: TUseAgregarInversionista["setData"]
   ) => {
     event?.preventDefault()
-    const params = await {
-      ci: data.createField.ci,
-      nombre: data.createField.nombre,
-      apellido: data.createField.apellido,
-      telefono: data.createField.telefono,
-      direccion: data.createField.direccion,
-      correo: data.createField.correo,
-      password: await encryptText(data.createField.ci),
+    let existError = false
+    const errors = {
+      ci: false,
+      nombre: false,
+      apellido: false,
+      telefono: false,
     }
-    consultBackend("inversionista/agregar", {
-      params,
-    })
-      .then((response) => {
-        response.json().then((data) => {
-          if (data?.success) {
-            messageApi("Se agregó al usuario exitosamente.", {
-              type: "success",
-            })
-            setData(
-              {
-                ci: "",
-                nombre: "",
-                apellido: "",
-                telefono: "",
-                direccion: "",
-                correo: "",
-              },
-              "createField"
-            )
-          } else {
-            messageApi(data?.message, { type: "error" })
-          }
-        })
+    if (data.createField.ci?.length < 4) errors.ci = true
+    if (data.createField.nombre?.length < 3) errors.nombre = true
+    if (data.createField.apellido?.length < 3) errors.apellido = true
+    if (data.createField.apellido?.length < 7) errors.apellido = true
+    for (const error in errors)
+      if (errors[error as keyof typeof errors]) {
+        existError = true
+        break
+      }
+    setData(errors, "errors")
+    if (!existError) {
+      const params = await {
+        ci: data.createField.ci,
+        nombre: data.createField.nombre,
+        apellido: data.createField.apellido,
+        telefono: data.createField.telefono,
+        direccion: data.createField.direccion,
+        correo: data.createField.correo,
+        password: await encryptText(data.createField.ci),
+      }
+      consultBackend("inversionista/agregar", {
+        params,
       })
-      .catch((error) => {
-        console.error("Error:", error)
-        messageApi("El servicio no responde, intente más tarde.", {
-          type: "error",
+        .then((response) => {
+          response.json().then((data) => {
+            if (data?.success) {
+              messageApi("Se agregó al usuario exitosamente.", {
+                type: "success",
+              })
+              setData(
+                {
+                  ci: "",
+                  nombre: "",
+                  apellido: "",
+                  telefono: "",
+                  direccion: "",
+                  correo: "",
+                },
+                "createField"
+              )
+            } else {
+              messageApi(data?.message, { type: "error" })
+            }
+          })
         })
-      })
+        .catch((error) => {
+          console.error("Error:", error)
+          messageApi("El servicio no responde, intente más tarde.", {
+            type: "error",
+          })
+        })
+    }
   }
   const crearInversionista_personaExistente_onClick = async (
     messageApi: TFunctions["messageApi"],

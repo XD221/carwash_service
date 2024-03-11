@@ -13,3 +13,5 @@ type TUseState = {
 type TUseActions = {
   setData: (data: Partial<TData> | any, name?: Partial<keyof TData>) => void
 }
+
+export type TTipoVehiculoDataFormat = Array<{ label: string; value: string }>

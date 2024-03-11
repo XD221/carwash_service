@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   Grid,
   Input,
   InputLabel,
@@ -48,6 +49,9 @@ const RegistrarNuevaPersona = ({
                 state.setData({ ci: d.target.value }, "createField")
               }
             />
+            {state.data.errors.ci && (
+              <FormHelperText>Debe tener mínimo 4 dígitos.</FormHelperText>
+            )}
           </FormControl>
           <FormControl>
             <InputLabel error={state.data.errors.nombre} required>
@@ -61,16 +65,25 @@ const RegistrarNuevaPersona = ({
                 state.setData({ nombre: d.target.value }, "createField")
               }
             />
+            {state.data.errors.nombre && (
+              <FormHelperText>Debe tener mínimo 3 caracteres.</FormHelperText>
+            )}
           </FormControl>
           <FormControl>
-            <InputLabel>Apellido</InputLabel>
+            <InputLabel error={state.data.errors.apellido} required>
+              Apellido
+            </InputLabel>
             <Input
+              error={state.data.errors.apellido}
               value={state.data.createField.apellido}
               inputProps={{ maxLength: 40 }}
               onChange={(d) =>
                 state.setData({ apellido: d.target.value }, "createField")
               }
             />
+            {state.data.errors.apellido && (
+              <FormHelperText>Debe tener mínimo 3 caracteres.</FormHelperText>
+            )}
           </FormControl>
           <FormControl>
             <InputLabel error={state.data.errors.telefono} required>
@@ -85,6 +98,9 @@ const RegistrarNuevaPersona = ({
                 state.setData({ telefono: d.target.value }, "createField")
               }
             />
+            {state.data.errors.telefono && (
+              <FormHelperText>Debe tener mínimo 7 dígitos.</FormHelperText>
+            )}
           </FormControl>
           <FormControl>
             <InputLabel>Correo</InputLabel>

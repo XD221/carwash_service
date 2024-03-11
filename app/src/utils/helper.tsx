@@ -83,7 +83,7 @@ export const restrictAllowOnlyNumber = (e: any, init = false) => {
   const t = e.target
   t.value = t.value.replace(/[^0-9]/g, "").replace(/(\..*)\./g, "$1")
   if (t.value.length > 1 && t.value.substring(0, 1) === "0") {
-    if (!isNaN(Number(t.value.substring(1, 2)))) {
+    if (!Number.isNaN(Number(t.value.substring(1, 2)))) {
       t.value = t.value.substring(1)
     }
   }

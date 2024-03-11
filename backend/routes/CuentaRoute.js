@@ -27,10 +27,11 @@ const CuentaRoute = (fastify, options, next) => {
           return reply.code(200).send({
             success: true,
             data: {
+              id: result.id,
               username: result.username,
               role: result.role,
-              nombre: result.nombre,
-              apellido: result.apellido,
+              nombre: result.persona.nombre,
+              apellido: result.persona.apellido,
               token,
             },
           })
@@ -58,7 +59,7 @@ const CuentaRoute = (fastify, options, next) => {
     if (token) {
       const validateToken = verifyToken(token)
       if (validateToken.success) {
-        const { username, role, nombre, apellido } = validateToken.data
+        const { id, username, role, nombre, apellido } = validateToken.data
         const current = new Date()
         const tokenDate = new Date(validateToken.exp * 1000)
         tokenDate.setMinutes(tokenDate.getMinutes() - 15)
@@ -66,7 +67,7 @@ const CuentaRoute = (fastify, options, next) => {
           token = getToken(validateToken)
           return reply.code(200).send({
             success: true,
-            data: { username, role, nombre, apellido, token },
+            data: { id, username, role, nombre, apellido, token },
           })
         }
 

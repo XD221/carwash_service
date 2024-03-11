@@ -29,6 +29,28 @@ export const login = async (data) => {
   return false
 }
 
+export const obtenerInfoById = async (id) => {
+  return await prisma.usuario.findFirst({
+    where: {
+      id: Number(id),
+    },
+    select: {
+      personaId: true,
+      persona: {
+        select: {
+          nombre: true,
+          apellido: true,
+          telefono: true,
+          ci: true,
+          correo: true,
+          direccion: true,
+          propietarioId: true,
+        },
+      },
+    },
+  })
+}
+
 export const crearInversionista_personaExistente = async (id, ci, password) => {
   return await prisma.usuario.create({
     data: {
@@ -40,7 +62,16 @@ export const crearInversionista_personaExistente = async (id, ci, password) => {
   })
 }
 export const crearInversionista = async (data) => {
-  const { nombre, apellido, telefono, ci, correo, direccion, password } = data
+  const {
+    nombre,
+    apellido,
+    telefono,
+    ci,
+    correo,
+    direccion,
+    password,
+    propietarioId,
+  } = data
   return await prisma.usuario.create({
     data: {
       username: ci,
@@ -54,6 +85,7 @@ export const crearInversionista = async (data) => {
           ci,
           correo,
           direccion,
+          propietarioId,
         },
       },
     },

@@ -2,8 +2,14 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const obtener = async () => {
-  return await prisma.persona.findMany()
+export const obtener = async (propietarioId) => {
+  return await prisma.persona.findMany({
+    where: {
+      propietarioId: {
+        equals: propietarioId ? Number(propietarioId) : null,
+      },
+    },
+  })
 }
 export const obtenerById = async (id) => {
   return await prisma.persona.findFirst({
@@ -12,7 +18,12 @@ export const obtenerById = async (id) => {
     },
   })
 }
-export const buscar = async (nombre, apellido, ci) => {
+export const buscarNoInversionista = async (
+  nombre,
+  apellido,
+  ci,
+  propietarioId
+) => {
   return await prisma.persona.findMany({
     where: {
       nombre: {
@@ -24,20 +35,8 @@ export const buscar = async (nombre, apellido, ci) => {
       ci: {
         contains: ci?.length > 0 ? ci : undefined,
       },
-    },
-  })
-}
-export const buscarNoInversionista = async (nombre, apellido, ci) => {
-  return await prisma.persona.findMany({
-    where: {
-      nombre: {
-        contains: nombre?.length > 0 ? nombre : undefined,
-      },
-      apellido: {
-        contains: apellido?.length > 0 ? apellido : undefined,
-      },
-      ci: {
-        contains: ci?.length > 0 ? ci : undefined,
+      propietarioId: {
+        equals: propietarioId ? Number(propietarioId) : null,
       },
       usuario: null,
     },

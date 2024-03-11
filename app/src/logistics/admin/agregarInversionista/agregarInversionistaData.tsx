@@ -5,6 +5,7 @@ const useData = () => {
     errors: {
       ci: false,
       nombre: false,
+      apellido: false,
       telefono: false,
     },
     peopleRows: [] as GridRowsProp,
