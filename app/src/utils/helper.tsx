@@ -91,3 +91,24 @@ export const restrictAllowOnlyNumber = (e: any, init = false) => {
     t.value = "0"
   }
 }
+
+export const restrictAllowOnlyNumberDecimal = (e: any, init = false) => {
+  const t = e.target
+  t.value = t.value.replace(/[^0-9\.]/g, "").replace(/(\..*)\./g, "$1")
+  if (t.value.length > 1 && t.value.substring(0, 1) == "0") {
+    if (!isNaN(t.value.substring(1, 2))) {
+      t.value = t.value.substring(1)
+    }
+  }
+  if (t.value.length == 0) {
+    t.value = "0"
+  }
+  if (t.value.length > 0 && t.value.substring(0, 1) == ".") {
+    t.value = "0"
+  }
+  if (t.value.search("\\.") > -1) {
+    if (t.value.substring(t.value.search("\\.")).length > 3) {
+      t.value = t.value.substring(0, t.value.length - 1)
+    }
+  }
+}

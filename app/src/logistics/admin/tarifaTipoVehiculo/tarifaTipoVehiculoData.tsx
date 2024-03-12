@@ -16,11 +16,11 @@ const useData = () => {
     tipoVehiculoData: [] as TTipoVehiculoDataFormat,
     errors: {
       tipoVehiculo: false,
-      tarifa: false,
+      tarifa: 0,
     },
     createField: {
       tipoVehiculo: "",
-      tarifa: 0,
+      tarifa: "",
     },
   }
   return {

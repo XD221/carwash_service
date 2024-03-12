@@ -97,10 +97,14 @@ const VehiculoRoute = (fastify, options, next) => {
             message: "No cuenta con los permisos suficientes.",
           })
         }
-      } catch (error) {
         return reply.code(404).send({
           success: false,
-          message: "Ocurrió un error inesperado, intente nuevamente.",
+          message: "No cuenta con los permisos suficientes.",
+        })
+      } catch (error) {
+        return reply.code(401).send({
+          success: false,
+          message: "Acceso denegado.",
         })
       }
     }

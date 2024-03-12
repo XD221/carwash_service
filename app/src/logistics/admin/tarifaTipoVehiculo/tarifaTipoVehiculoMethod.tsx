@@ -100,24 +100,42 @@ const useMethod = (data: TData) => {
     setData: TUseTarifaTipoVehiculo["setData"]
   ) => {
     event?.preventDefault()
-    consultBackend("vehiculo/crear-tarifa", {
-      requestType: "post",
-    })
-      .then((response) => {
-        response.json().then((data) => {
-          if (data?.success) {
-            setData({ peopleRows: data?.data })
-          } else {
-            messageApi(data?.message, { type: "error" })
-          }
-        })
+    let existError = false
+    const errors = {
+      tipoVehiculo: false,
+      tarifa: 0,
+    }
+    if (data.createField.tipoVehiculo?.length === 0) errors.tipoVehiculo = true
+    if (data.createField.tarifa?.length === 0) errors.tarifa = 1
+    if (data.createField.tarifa?.slice(-1) === ".") errors.tarifa = 2
+    for (const error in errors)
+      if (errors[error as keyof typeof errors]) {
+        existError = true
+        break
+      }
+    setData(errors, "errors")
+    if (!existError) {
+      consultBackend("vehiculo/crear-tarifa", {
+        params: data.createField,
       })
-      .catch((error) => {
-        console.error("Error:", error)
-        messageApi("El servicio no responde, intente más tarde.", {
-          type: "error",
+        .then((response) => {
+          response.json().then((data) => {
+            if (data?.success) {
+              messageApi("La tarifa se registró exitosamente.", {
+                type: "success",
+              })
+            } else {
+              messageApi(data?.message, { type: "error" })
+            }
+          })
         })
-      })
+        .catch((error) => {
+          console.error("Error:", error)
+          messageApi("El servicio no responde, intente más tarde.", {
+            type: "error",
+          })
+        })
+    }
   }
   return {
     columns,

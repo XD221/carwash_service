@@ -12,10 +12,12 @@ import {
   Input,
   Select,
   MenuItem,
+  FormHelperText,
 } from "@mui/material"
 import { useLayoutEffect } from "react"
 import { useTarifaTipoVehiculo } from "src/context/AdminContext"
 import { useApp } from "src/context/AppContext"
+import { restrictAllowOnlyNumberDecimal } from "src/utils/helper"
 
 const TarifaTipoVehiculo = () => {
   const app = useApp()
@@ -61,42 +63,64 @@ const TarifaTipoVehiculo = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              // onSubmit={(d) =>
-              //   state.functions.crearInversionista_onClick(
-              //     d,
-              //     app.functions.messageApi,
-              //     state.setData
-              //   )
-              // }
+              onSubmit={(d) =>
+                state.functions.create_onFinish(
+                  d,
+                  app.functions.messageApi,
+                  state.setData
+                )
+              }
               gap={2}
             >
               <FormControl variant="standard" sx={{ width: "40%" }}>
                 <InputLabel error={state.data.errors.tipoVehiculo} required>
                   Tipo de Vehículo
                 </InputLabel>
-                <Select>
+                <Select
+                  value={state.data.createField.tipoVehiculo}
+                  onChange={(d) =>
+                    state.setData(
+                      { tipoVehiculo: d.target.value },
+                      "createField"
+                    )
+                  }
+                >
                   {state.data.tipoVehiculoData?.map((p) => (
                     <MenuItem key={p.value} value={p.value}>
                       <em>{p.label}</em>
                     </MenuItem>
                   ))}
                 </Select>
+                {state.data.errors.tipoVehiculo && (
+                  <FormHelperText>
+                    Debe seleccionar un tipo de vehículo.
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControl>
-                <InputLabel
-                  // error={state.data.errors.nombre}
-                  required
-                >
-                  Nombre
+                <InputLabel error={state.data.errors.tarifa > 0} required>
+                  Tarifa
                 </InputLabel>
                 <Input
-                  // error={state.data.errors.nombre}
-                  // value={state.data.createField.nombre}
-                  inputProps={{ maxLength: 35 }}
-                  // onChange={(d) =>
-                  //   state.setData({ nombre: d.target.value }, "createField")
-                  // }
+                  error={state.data.errors.tarifa > 0}
+                  value={state.data.createField.tarifa}
+                  inputProps={{ maxLength: 11 }}
+                  onInput={(d) => restrictAllowOnlyNumberDecimal(d)}
+                  onChange={(d) =>
+                    state.setData({ tarifa: d.target.value }, "createField")
+                  }
                 />
+                {state.data.errors.tarifa === 1 && (
+                  <FormHelperText>
+                    El campo tarifa no debe estar vacío.
+                  </FormHelperText>
+                )}
+
+                {state.data.errors.tarifa === 2 && (
+                  <FormHelperText>
+                    Campo Inválido, verifique si el formato esta correctamente.
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControl>
                 <Button
