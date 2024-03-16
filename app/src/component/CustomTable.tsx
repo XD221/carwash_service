@@ -1,15 +1,16 @@
 import {
   GridRowsProp,
-  GridRowModesModel,
-  GridRowModes,
+  // GridRowModesModel,
+  // GridRowModes,
   DataGrid,
   GridColDef,
-  GridToolbarContainer,
-  GridActionsCellItem,
-  GridEventListener,
-  GridRowId,
-  GridRowModel,
-  GridRowEditStopReasons,
+  // GridToolbarContainer,
+  // GridActionsCellItem,
+  // GridEventListener,
+  // GridRowId,
+  // GridRowModel,
+  // GridRowEditStopReasons,
+  esES,
 } from "@mui/x-data-grid"
 
 const CustomTable = ({
@@ -24,20 +25,19 @@ const CustomTable = ({
     <DataGrid
       rows={rows}
       columns={columns}
-      hideFooter={true}
+      // hideFooter={true
       rowHeight={40}
       columnHeaderHeight={30}
+      initialState={{
+        pagination: {
+          paginationModel: {
+            pageSize: 10,
+          },
+        },
+      }}
+      pageSizeOptions={[10]}
+      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
       {...props}
-      // rowModesModel={rowModesModel}
-      // onRowModesModelChange={handleRowModesModelChange}
-      // onRowEditStop={handleRowEditStop}
-      // processRowUpdate={processRowUpdate}
-      // slots={{
-      //   toolbar: EditToolbar,
-      // }}
-      // slotProps={{
-      //   toolbar: { setRows, setRowModesModel },
-      // }}
     />
   )
 }

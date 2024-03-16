@@ -73,41 +73,56 @@ const VehiculoRoute = (fastify, options, next) => {
         })
       }
     }
+    return reply.code(401).send({
+      success: false,
+      message: "Acceso denegado.",
+    })
   })
 
-  fastify.get("/crear-tarifa", async (request, reply) => {
-    const { tipoVehiculo, tarifa } = request.query
+  fastify.post("/crear-tarifa", async (request, reply) => {
+    const { tipoVehiculo, tarifa } = request.body
     // crearTarifa
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      try {
-        const validateToken = verifyToken(token)
-        if (validateToken.success) {
-          const { id, role } = validateToken.data
-          if (role === "INVERSIONISTA") {
-            const result = await crearTarifa(tipoVehiculo, tarifa, id)
-            return reply.code(200).send({
-              success: true,
-              data: result,
+      if (tipoVehiculo && tarifa) {
+        try {
+          const validateToken = verifyToken(token)
+          if (validateToken.success) {
+            const { id, role } = validateToken.data
+            if (role === "INVERSIONISTA") {
+              const result = await crearTarifa(tipoVehiculo, tarifa, id)
+              return reply.code(200).send({
+                success: true,
+                data: result,
+              })
+            }
+            return reply.code(404).send({
+              success: false,
+              message: "No cuenta con los permisos suficientes.",
             })
           }
           return reply.code(404).send({
             success: false,
             message: "No cuenta con los permisos suficientes.",
           })
+        } catch (error) {
+          return reply.code(404).send({
+            success: false,
+            message: "Ocurrió un error inesperado, intente nuevamente.",
+          })
         }
-        return reply.code(404).send({
-          success: false,
-          message: "No cuenta con los permisos suficientes.",
-        })
-      } catch (error) {
-        return reply.code(401).send({
-          success: false,
-          message: "Acceso denegado.",
-        })
       }
+      return reply.code(403).send({
+        success: false,
+        message:
+          "No cuenta con los parámetros suficientes para realizar la consulta.",
+      })
     }
+    return reply.code(401).send({
+      success: false,
+      message: "Acceso denegado.",
+    })
   })
   next()
 }

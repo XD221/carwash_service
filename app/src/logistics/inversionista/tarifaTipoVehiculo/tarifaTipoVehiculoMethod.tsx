@@ -1,6 +1,10 @@
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid"
-import { TData, TUseTarifaTipoVehiculo } from "@type/admin/TTarifaTipoVehiculo"
+import {
+  TData,
+  TUseTarifaTipoVehiculo,
+} from "@type/inversionista/TTarifaTipoVehiculo"
 import { TFunctions } from "@type/default"
+import dayjs from "dayjs"
 import { consultBackend } from "src/utils/helper"
 
 const columns = () => {
@@ -24,13 +28,17 @@ const columns = () => {
       flex: 1,
     },
     {
-      field: "fecha",
+      field: "creado_en",
       headerName: "Fecha",
       type: "string",
       align: "left",
       headerAlign: "left",
       sortable: false,
       flex: 1,
+      renderCell: (params: GridRenderCellParams<any, Date>) =>
+        dayjs(params.row.creado_en, "YYYY-MM-DDTHH:mm:ss.SSS[Z]", true).format(
+          "DD/MM/YYYY"
+        ),
     },
     {
       field: "estado",
@@ -117,6 +125,7 @@ const useMethod = (data: TData) => {
     if (!existError) {
       consultBackend("vehiculo/crear-tarifa", {
         params: data.createField,
+        requestType: "post",
       })
         .then((response) => {
           response.json().then((data) => {
@@ -124,6 +133,14 @@ const useMethod = (data: TData) => {
               messageApi("La tarifa se registró exitosamente.", {
                 type: "success",
               })
+              setData({
+                addModalOpen: false,
+                createField: {
+                  tipoVehiculo: "",
+                  tarifa: "",
+                },
+              })
+              initialState(setData, messageApi)
             } else {
               messageApi(data?.message, { type: "error" })
             }

@@ -172,6 +172,7 @@ const useMethod = (data: TData) => {
       }
       consultBackend("inversionista/agregar", {
         params,
+        requestType: "post",
       })
         .then((response) => {
           response.json().then((data) => {
@@ -213,6 +214,7 @@ const useMethod = (data: TData) => {
     }
     consultBackend("inversionista/agregar-persona-existente", {
       params,
+      requestType: "post",
     })
       .then((response) => {
         response.json().then((data) => {

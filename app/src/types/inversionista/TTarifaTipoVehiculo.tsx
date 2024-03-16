@@ -1,5 +1,5 @@
-import useData from "@logistics/admin/tarifaTipoVehiculo/tarifaTipoVehiculoData"
-import useMethod from "@logistics/admin/tarifaTipoVehiculo/tarifaTipoVehiculoMethod"
+import useData from "@logistics/inversionista/tarifaTipoVehiculo/tarifaTipoVehiculoData"
+import useMethod from "@logistics/inversionista/tarifaTipoVehiculo/tarifaTipoVehiculoMethod"
 
 export type TData = ReturnType<typeof useData>
 export type TFunctions = ReturnType<typeof useMethod>

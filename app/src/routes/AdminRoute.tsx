@@ -1,5 +1,4 @@
 import AgregarInversionista from "@pages/admin/agregarInversionista"
-import TarifaTipoVehiculo from "@pages/admin/tarifaTipoVehiculo"
 
 const AdminRoute = [
   {
@@ -9,10 +8,6 @@ const AdminRoute = [
   {
     path: "agregar-inversionista",
     element: <AgregarInversionista />,
-  },
-  {
-    path: "tarifa-tipo-vehiculo",
-    element: <TarifaTipoVehiculo />,
   },
 ]
 

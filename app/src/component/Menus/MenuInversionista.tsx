@@ -1,7 +1,7 @@
 import { Menu, MenuItem, Typography } from "@mui/material"
 import Fade from "@mui/material/Fade"
 
-const MenuAdmin = ({
+const MenuInversionista = ({
   id,
   anchorEl,
   open,
@@ -23,17 +23,19 @@ const MenuAdmin = ({
       }}
       TransitionComponent={Fade}
     >
-      <MenuItem onClick={() => handleClose("/admin/agregar-inversionista")}>
+      <MenuItem
+        onClick={() => handleClose("/inversionista/tarifa-tipo-vehiculo")}
+      >
         <Typography variant="inherit" noWrap>
-          Agregar Inversionista
+          Tarifa de tipo de vehículo
         </Typography>
       </MenuItem>
-      <MenuItem onClick={() => handleClose("/admin/ejemplo-b")}>
+      <MenuItem onClick={() => handleClose("/inversionista/servicios")}>
         <Typography variant="inherit" noWrap>
-          Ejemplo B
+          Servicios
         </Typography>
       </MenuItem>
-      <MenuItem onClick={() => handleClose("/admin/ejemplo-c")}>
+      <MenuItem onClick={() => handleClose("/inversionista/ejemplo-c")}>
         <Typography variant="inherit" noWrap>
           Ejemplo C
         </Typography>
@@ -42,4 +44,4 @@ const MenuAdmin = ({
   )
 }
 
-export default MenuAdmin
+export default MenuInversionista

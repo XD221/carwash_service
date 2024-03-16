@@ -47,8 +47,9 @@ model Usuario {
 model Servicio {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(60)
-    precio Decimal @db.Decimal(9,2)
+    precio Decimal @db.Decimal(11,2)
     descripcion String @db.VarChar(255)
+    estado Boolean @default(true) // true: Activo, false: Inactivo
     propietarioId Int
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
@@ -116,7 +117,7 @@ model Ventas { // EL propietario se consigue en la relacion con la sucursal
 model VehiculoMantenimiento {
     id Int @id @default(autoincrement())
     detalle String @db.VarChar(500)
-    tarifa Decimal @db.Decimal(9,2)
+    tarifa Decimal @db.Decimal(11,2)
     estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt

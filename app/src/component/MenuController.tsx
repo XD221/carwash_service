@@ -1,5 +1,7 @@
 import MenuAdmin from "./Menus/MenuAdmin"
+import MenuCuenta from "./Menus/MenuCuenta"
 import MenuInventario from "./Menus/MenuInventario"
+import MenuInversionista from "./Menus/MenuInversionista"
 
 const MenuController = ({
   id,
@@ -43,6 +45,24 @@ const MenuController = ({
     return (
       <MenuInventario
         id={menuNames.inventario}
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+      />
+    )
+  else if (controlName === menuNames.inversionista)
+    return (
+      <MenuInversionista
+        id={menuNames.inversionista}
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+      />
+    )
+  else if (controlName === menuNames.cuenta)
+    return (
+      <MenuCuenta
+        id={menuNames.cuenta}
         anchorEl={anchorEl}
         open={open}
         handleClose={handleClose}

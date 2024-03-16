@@ -1,5 +1,5 @@
 import { GridRowsProp } from "@mui/x-data-grid"
-import { TTipoVehiculoDataFormat } from "@type/admin/TTarifaTipoVehiculo"
+import { TTipoVehiculoDataFormat } from "@type/inversionista/TTarifaTipoVehiculo"
 
 const modalStyle = {
   position: "fixed",

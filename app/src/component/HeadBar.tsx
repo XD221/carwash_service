@@ -13,9 +13,11 @@ import MenuItem from "@mui/material/MenuItem"
 import Drawer from "@mui/material/Drawer"
 import MenuIcon from "@mui/icons-material/Menu"
 import ToggleColorMode from "./ToggleColorMode"
-import { useColorScheme } from "@mui/material"
+import { IconButton, useColorScheme } from "@mui/material"
 import MenuController from "./MenuController"
 import { useNavigate } from "react-router-dom"
+import { AccountCircle } from "@mui/icons-material"
+import { getUserInfo } from "src/utils/helper"
 
 const logoStyle = {
   width: "140px",
@@ -134,7 +136,7 @@ function HeadBar() {
                   </Typography>
                 </Button>
                 <Button
-                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-controls="inversionistaMenu"
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                   onClick={handleClick}
@@ -179,26 +181,23 @@ function HeadBar() {
                 mode={mode as string}
                 toggleColorMode={toggleColorMode}
               />
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
-                target="_blank"
-              >
-                Sign in
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
-                target="_blank"
-              >
-                Sign up
-              </Button>
+              <div>
+                <IconButton
+                  size="small"
+                  aria-label="account of current user"
+                  aria-controls="cuentaMenu"
+                  aria-expanded={open ? "true" : undefined}
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                  color="default"
+                >
+                  <AccountCircle fontSize="small" />
+                  {getUserInfo().nombre}
+                  <span style={{ fontSize: "10px" }}>
+                    ({getUserInfo().role})
+                  </span>
+                </IconButton>
+              </div>
             </Box>
             <Box sx={{ display: { sm: "", md: "none" } }}>
               <Button
@@ -305,10 +304,5 @@ function HeadBar() {
     </div>
   )
 }
-
-// HeadBar.propTypes = {
-//   mode: PropTypes.oneOf(["dark", "light"]).isRequired,
-//   toggleColorMode: PropTypes.func.isRequired,
-// }
 
 export default HeadBar

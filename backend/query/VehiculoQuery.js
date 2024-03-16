@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 export const obtenerTarifaTipoVehiculo = async (idPropietario) => {
   return await prisma.tarifaTipoVehiculo.findMany({
     where: { propietarioId: Number(idPropietario) },
+    orderBy: { estado: "desc" },
   })
 }
 
@@ -13,11 +14,20 @@ export const obtenerTipoVehiculo = () => {
 }
 
 export const crearTarifa = async (tipoVehiculo, tarifa, propietarioId) => {
-  return await prisma.tarifaTipoVehiculo.create({
-    data: {
-      tarifa,
-      tipoVehiculo,
-      propietarioId,
-    },
-  })
+  const [_, result] = await prisma.$transaction([
+    prisma.tarifaTipoVehiculo.updateMany({
+      where: { estado: true, tipoVehiculo },
+      data: {
+        estado: false,
+      },
+    }),
+    prisma.tarifaTipoVehiculo.create({
+      data: {
+        tarifa,
+        tipoVehiculo,
+        propietarioId,
+      },
+    }),
+  ])
+  return result
 }

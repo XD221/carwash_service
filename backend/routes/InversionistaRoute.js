@@ -8,8 +8,8 @@ import { verifyToken } from "./CuentaRoute.js"
 
 const InversionistaRoute = (fastify, options, next) => {
   // ? Usado cuando se selecciona a una persona existente
-  fastify.get("/agregar-persona-existente", async (request, reply) => {
-    const { id, password } = request.query
+  fastify.post("/agregar-persona-existente", async (request, reply) => {
+    const { id, password } = request.body
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
@@ -62,9 +62,9 @@ const InversionistaRoute = (fastify, options, next) => {
       message: "Acceso denegado.",
     })
   })
-  fastify.get("/agregar", async (request, reply) => {
+  fastify.post("/agregar", async (request, reply) => {
     const { ci, nombre, apellido, telefono, direccion, correo, password } =
-      request.query
+      request.body
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
