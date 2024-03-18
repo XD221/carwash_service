@@ -18,7 +18,7 @@ const PersonaRoute = (fastify, options, next) => {
             result = await obtener(id)
           } else {
             const info = await obtenerInfoById(id)
-            if (info) {
+            if (info?.length > 0) {
               result = await obtener(info.persona.propietarioId)
             } else {
               return reply.code(403).send({
@@ -64,7 +64,7 @@ const PersonaRoute = (fastify, options, next) => {
             result = await buscarNoInversionista(nombre, apellido, ci, id)
           } else {
             const info = await obtenerInfoById(id)
-            if (info) {
+            if (info?.length > 0) {
               result = await buscarNoInversionista(
                 nombre,
                 apellido,

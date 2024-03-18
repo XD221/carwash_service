@@ -1,15 +1,15 @@
-import { PrismaClient, TipoVehiculo } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
 export const obtener = async (idPropietario) => {
-  return await prisma.servicio.findMany({
+  return await prisma.sucursal.findMany({
     where: { propietarioId: Number(idPropietario) },
   })
 }
 
 export const obtenerByNombre = async (nombre, id, idPropietario) => {
-  return await prisma.servicio.findMany({
+  return await prisma.sucursal.findMany({
     where: {
       propietarioId: Number(idPropietario),
       id: {
@@ -21,41 +21,33 @@ export const obtenerByNombre = async (nombre, id, idPropietario) => {
 }
 
 export const obtenerDisponibles = async (idPropietario) => {
-  return await prisma.servicio.findMany({
+  return await prisma.sucursal.findMany({
     where: { propietarioId: Number(idPropietario), estado: true },
   })
 }
 
-export const crear = async (nombre, precio, descripcion, propietarioId) => {
-  return await prisma.servicio.create({
+export const crear = async (nombre, direccion, propietarioId) => {
+  return await prisma.sucursal.create({
     data: {
       nombre,
-      precio,
-      descripcion,
+      direccion,
       propietarioId: Number(propietarioId),
     },
   })
 }
 
-export const modificar = async (
-  nombre,
-  precio,
-  descripcion,
-  id,
-  propietarioId
-) => {
-  return await prisma.servicio.update({
+export const modificar = async (nombre, direccion, id, propietarioId) => {
+  return await prisma.sucursal.update({
     where: { id: Number(id), propietarioId: Number(propietarioId) },
     data: {
       nombre,
-      precio,
-      descripcion,
+      direccion,
     },
   })
 }
 
 export const suspender = async (id, propietarioId) => {
-  return await prisma.servicio.update({
+  return await prisma.sucursal.update({
     where: {
       id: Number(id),
       propietarioId: Number(propietarioId),
@@ -68,7 +60,7 @@ export const suspender = async (id, propietarioId) => {
 }
 
 export const habilitar = async (id, propietarioId) => {
-  return await prisma.servicio.update({
+  return await prisma.sucursal.update({
     where: {
       id: Number(id),
       propietarioId: Number(propietarioId),

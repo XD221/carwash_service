@@ -21,7 +21,7 @@ const VehiculoRoute = (fastify, options, next) => {
             result = await obtenerTarifaTipoVehiculo(id)
           } else {
             const info = await obtenerInfoById(id)
-            if (info) {
+            if (info?.length > 0) {
               result = await obtenerTarifaTipoVehiculo(
                 info.persona.propietarioId
               )

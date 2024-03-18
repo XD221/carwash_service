@@ -21,7 +21,6 @@ model Persona {
   propietarioId Int?
   propietario Usuario? @relation("propietario", fields: [propietarioId], references: [id])
   usuario Usuario? @relation("persona")
-  sucursal Sucursal?
   ventas Ventas[]
   vehiculo Vehiculo[]
   @@unique([ci, propietarioId])
@@ -36,6 +35,9 @@ model Usuario {
   creado_en DateTime @default(now())
   actualizado_en DateTime @updatedAt
   personaId Int @unique
+  sucursalId Int? // Solo operadores que pertenecen a la sucursal
+  local Sucursal? @relation("local",fields: [sucursalId], references: [id])
+  sucursal Sucursal[] @relation("sucursal")
   persona Persona @relation("persona", fields: [personaId], references: [id])
   propietario Persona[] @relation("propietario")
   servicio Servicio[]
@@ -53,7 +55,7 @@ model Servicio {
     propietarioId Int
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
-    propietario Usuario? @relation(fields: [propietarioId], references: [id])
+    propietario Usuario @relation(fields: [propietarioId], references: [id])
     consumoServicio ConsumoServicio[]
 }
 
@@ -64,8 +66,9 @@ model Sucursal {
     estado Boolean @default(true) // true: Activo, false: Inactivo
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
-    propietarioId Int @unique
-    propietario Persona @relation(fields: [propietarioId], references: [id])
+    empleados Usuario[] @relation("local")
+    propietarioId Int
+    propietario Usuario @relation("sucursal",fields: [propietarioId], references: [id])
     ventas Ventas[]
     inventario Inventario[]
 }

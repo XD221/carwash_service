@@ -2,22 +2,22 @@ import CustomTable from "@component/CustomTable"
 import { Button, Card, CardContent, CardHeader } from "@mui/material"
 import { useLayoutEffect } from "react"
 import { useApp } from "src/context/AppContext"
-import { useServicios } from "src/context/InversionistaContext"
-import AgregarServiciosModal from "./Servicios/agregarServiciosModal"
+import { useSucursales } from "src/context/InversionistaContext"
+import AgregarSucursalesModal from "./Sucursales/agregarSucursalesModal"
 import PopoverConfirm from "@component/PopoverConfirm"
 
-const Servicios = () => {
-  const state = useServicios()
+const Sucursales = () => {
+  const state = useSucursales()
   const app = useApp()
   useLayoutEffect(() => {
-    if (state.data.serviciosRows.length === 0) {
+    if (state.data.sucursalesRows.length === 0) {
       state.functions.initialState(state.setData, app.functions.messageApi)
     }
   }, [])
   return (
     <>
       <Card>
-        <CardHeader style={{ textAlign: "center" }} title="Servicios" />
+        <CardHeader style={{ textAlign: "center" }} title="Sucursales" />
         <CardContent>
           <div style={{ textAlign: "right" }}>
             <Button
@@ -33,11 +33,11 @@ const Servicios = () => {
           </div>
           <CustomTable
             columns={state.functions.columns(state.setData)}
-            rows={state.data.serviciosRows}
+            rows={state.data.sucursalesRows}
           />
         </CardContent>
       </Card>
-      <AgregarServiciosModal state={state} app={app} />
+      <AgregarSucursalesModal state={state} app={app} />
       <PopoverConfirm
         message={
           state.data.suspendData.estado
@@ -69,4 +69,4 @@ const Servicios = () => {
   )
 }
 
-export default Servicios
+export default Sucursales

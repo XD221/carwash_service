@@ -17,29 +17,32 @@ const InversionistaRoute = (fastify, options, next) => {
         try {
           const validateToken = verifyToken(token)
           if (validateToken.success) {
-            const persona = await obtenerById(id)
-            if (persona) {
-              const result = await crearInversionista_personaExistente(
-                persona.id,
-                persona.ci,
-                password
-              )
-              if (result) {
-                return reply.code(200).send({
-                  success: true,
-                  data: result,
+            const { role } = validateToken.data
+            if (role === "ADMIN") {
+              const persona = await obtenerById(id)
+              if (persona) {
+                const result = await crearInversionista_personaExistente(
+                  persona.id,
+                  persona.ci,
+                  password
+                )
+                if (result) {
+                  return reply.code(200).send({
+                    success: true,
+                    data: result,
+                  })
+                }
+                return reply.code(409).send({
+                  success: false,
+                  message:
+                    "No es posible crear al usuario, ocurrió un error inesperado.",
                 })
               }
-              return reply.code(409).send({
+              return reply.code(403).send({
                 success: false,
-                message:
-                  "No es posible crear al usuario, ocurrió un error inesperado.",
+                message: "No se encontró a la persona.",
               })
             }
-            return reply.code(403).send({
-              success: false,
-              message: "No se encontró a la persona.",
-            })
           }
           return reply
             .code(401)
@@ -69,39 +72,23 @@ const InversionistaRoute = (fastify, options, next) => {
     const token = auth.split(" ")[1]
     if (token) {
       if (
-        ci &&
-        nombre &&
-        apellido &&
-        telefono &&
-        direccion &&
-        correo &&
-        password
+        typeof ci === "string" &&
+        typeof nombre === "string" &&
+        typeof apellido === "string" &&
+        typeof telefono === "string" &&
+        typeof direccion === "string" &&
+        typeof correo === "string" &&
+        typeof password === "string"
       ) {
         try {
           const validateToken = verifyToken(token)
           if (validateToken.success) {
-            const { id, role } = validateToken.data
-            const info = await obtenerInfoById(id)
-            let persona = {}
+            const { role } = validateToken.data
             if (role === "ADMIN") {
-              persona = await obtener(null)
-            } else if (role === "INVERSIONISTA") {
-              persona = await obtener(id)
-            } else {
-              if (info) {
-                persona = await obtener(info.persona.propietarioId)
-              } else {
-                return reply.code(403).send({
-                  success: false,
-                  message: "Usuario no encontrado.",
-                })
-              }
-            }
-            const exist = persona.find((data) => data.ci === ci)
-            if (!exist) {
-              let result = []
-              if (role === "ADMIN") {
-                result = await crearInversionista({
+              const persona = await obtener(null)
+              const exist = await persona.find((data) => data.ci === ci)
+              if (Array.isArray(exist) && exist?.length === 0) {
+                const result = await crearInversionista({
                   ci,
                   nombre,
                   apellido,
@@ -111,45 +98,16 @@ const InversionistaRoute = (fastify, options, next) => {
                   password,
                   propietarioId: null,
                 })
-              } else if (role === "INVERSIONISTA") {
-                result = await crearInversionista({
-                  ci,
-                  nombre,
-                  apellido,
-                  telefono,
-                  direccion,
-                  correo,
-                  password,
-                  propietarioId: id,
-                })
-              } else {
-                result = await crearInversionista({
-                  ci,
-                  nombre,
-                  apellido,
-                  telefono,
-                  direccion,
-                  correo,
-                  password,
-                  propietarioId: info.persona.propietarioId,
-                })
-              }
-              if (result) {
                 return reply.code(200).send({
                   success: true,
                   data: result,
                 })
               }
-              return reply.code(409).send({
+              return reply.code(403).send({
                 success: false,
-                message:
-                  "No es posible crear al usuario, ocurrió un error inesperado.",
+                message: "Ya existe una persona con el mismo CI.",
               })
             }
-            return reply.code(403).send({
-              success: false,
-              message: "Ya existe una persona con el mismo CI.",
-            })
           }
           return reply
             .code(401)

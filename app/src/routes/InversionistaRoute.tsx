@@ -1,4 +1,5 @@
 import Servicios from "@pages/inversionista/Servicios"
+import Sucursales from "@pages/inversionista/Sucursales"
 import TarifaTipoVehiculo from "@pages/inversionista/tarifaTipoVehiculo"
 
 const InversionistaRoute = [
@@ -13,6 +14,10 @@ const InversionistaRoute = [
   {
     path: "servicios",
     element: <Servicios />,
+  },
+  {
+    path: "sucursales",
+    element: <Sucursales />,
   },
 ]
 

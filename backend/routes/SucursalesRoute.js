@@ -6,10 +6,10 @@ import {
   modificar,
   suspender,
   habilitar,
-} from "../query/ServiciosQuery.js"
+} from "../query/SucursalesQuery.js"
 import { verifyToken } from "./CuentaRoute.js"
 
-const ServiciosRoute = (fastify, options, next) => {
+const SucursalesRoute = (fastify, options, next) => {
   fastify.get("/obtener", async (request, reply) => {
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
@@ -59,24 +59,19 @@ const ServiciosRoute = (fastify, options, next) => {
   })
 
   fastify.post("/agregar", async (request, reply) => {
-    const { nombre, precio, descripcion } = request.body
+    const { nombre, direccion } = request.body
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      if (
-        typeof nombre === "string" &&
-        typeof precio === "string" &&
-        typeof descripcion === "string"
-      ) {
-        try {
-          const validateToken = verifyToken(token)
-          if (validateToken.success) {
-            let result = []
+      try {
+        const validateToken = verifyToken(token)
+        if (validateToken.success) {
+          if (typeof nombre === "string" && typeof direccion === "string") {
             const { id, role } = validateToken.data
             if (role === "INVERSIONISTA") {
-              const exist = await obtenerByNombre(nombre, 0, id)
+              const exist = await obtenerByNombre(nombre, "0", id)
               if (Array.isArray(exist) && exist?.length === 0) {
-                result = await crear(nombre, precio, descripcion, id)
+                const result = await crear(nombre, direccion, id)
                 return reply.code(200).send({
                   success: true,
                   data: result,
@@ -84,7 +79,7 @@ const ServiciosRoute = (fastify, options, next) => {
               }
               return reply.code(406).send({
                 success: false,
-                message: "Ya existe un servicio con ese nombre.",
+                message: "Ya existe un sucursal con ese nombre.",
               })
             }
           }
@@ -92,18 +87,18 @@ const ServiciosRoute = (fastify, options, next) => {
             success: false,
             message: "No cuenta con los permisos suficientes.",
           })
-        } catch (error) {
-          return reply.code(404).send({
-            success: false,
-            message: "Ocurrió un error inesperado, intente nuevamente.",
-          })
         }
+        return reply.code(403).send({
+          success: false,
+          message:
+            "No cuenta con los parámetros suficientes para realizar la consulta.",
+        })
+      } catch (error) {
+        return reply.code(404).send({
+          success: false,
+          message: "Ocurrió un error inesperado, intente nuevamente.",
+        })
       }
-      return reply.code(403).send({
-        success: false,
-        message:
-          "No cuenta con los parámetros suficientes para realizar la consulta.",
-      })
     }
     return reply.code(401).send({
       success: false,
@@ -112,16 +107,11 @@ const ServiciosRoute = (fastify, options, next) => {
   })
 
   fastify.post("/modificar", async (request, reply) => {
-    const { nombre, precio, descripcion, id } = request.body
+    const { nombre, direccion, id } = request.body
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      if (
-        typeof nombre === "string" &&
-        typeof precio === "string" &&
-        typeof descripcion === "string" &&
-        id
-      ) {
+      if (typeof nombre === "string" && typeof direccion === "string" && id) {
         try {
           const validateToken = verifyToken(token)
           if (validateToken.success) {
@@ -130,13 +120,7 @@ const ServiciosRoute = (fastify, options, next) => {
             if (role === "INVERSIONISTA") {
               const exist = await obtenerByNombre(nombre, id, propietarioId)
               if (Array.isArray(exist) && exist?.length === 0) {
-                result = await modificar(
-                  nombre,
-                  precio,
-                  descripcion,
-                  id,
-                  propietarioId
-                )
+                result = await modificar(nombre, direccion, id, propietarioId)
                 return reply.code(200).send({
                   success: true,
                   data: result,
@@ -144,7 +128,7 @@ const ServiciosRoute = (fastify, options, next) => {
               }
               return reply.code(406).send({
                 success: false,
-                message: "Ya existe un servicio con ese nombre.",
+                message: "Ya existe un sucursal con ese nombre.",
               })
             }
           }
@@ -257,4 +241,4 @@ const ServiciosRoute = (fastify, options, next) => {
   next()
 }
 
-export default ServiciosRoute
+export default SucursalesRoute

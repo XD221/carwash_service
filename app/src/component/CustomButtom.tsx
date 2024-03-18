@@ -1,7 +1,35 @@
-import { styled, css } from "@mui/system"
+import { Button, ButtonProps, CircularProgress } from "@mui/material"
+import { styled, css, Box } from "@mui/system"
 import { useApp } from "src/context/AppContext"
 
-const CustomButton = styled("button")(({ theme }) => {
+const CustomButton = ({
+  children,
+  model = 1,
+  loading = false,
+  ...props
+}: { model?: 1 | 2; loading?: boolean } & ButtonProps) => {
+  const CustomButtonName =
+    model === 1 ? Button : (CustomButtonModel2 as typeof Button)
+  return (
+    <CustomButtonName disabled={loading} {...props}>
+      {children}
+      {loading && (
+        <CircularProgress
+          size={props.size === "small" ? 18 : 24}
+          sx={{
+            position: "absolute",
+            top: props.size === "small" ? "55%" : "50%",
+            left: props.size === "small" ? "55%" : "50%",
+            marginTop: "-12px",
+            marginLeft: "-12px",
+          }}
+        />
+      )}
+    </CustomButtonName>
+  )
+}
+
+const CustomButtonModel2 = styled("button")(({ theme }) => {
   const {
     data: { grey, blue },
   } = useApp()

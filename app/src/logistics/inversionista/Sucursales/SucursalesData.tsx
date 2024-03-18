@@ -2,12 +2,10 @@ const useData = () => {
   const defaultValues = {
     errors: {
       nombre: false,
-      precio: 0,
     },
     createField: {
       nombre: "",
-      precio: "",
-      descripcion: "",
+      direccion: "",
       id: "", // Only modify Mode
     },
     suspendData: {
@@ -18,8 +16,8 @@ const useData = () => {
   return {
     ...defaultValues,
     addModalOpen: false,
-    createDescripcionFieldFullWidth: false,
-    serviciosRows: [],
+    createDireccionFieldFullWidth: false,
+    sucursalesRows: [],
     modifyMode: false,
     suspenderPopover: { open: false, anchorEl: null },
   }

@@ -23,9 +23,10 @@ const CustomTable = ({
 }) => {
   return (
     <DataGrid
+      disableRowSelectionOnClick
       rows={rows}
       columns={columns}
-      // hideFooter={true
+      // hideFooter={true}
       rowHeight={40}
       columnHeaderHeight={30}
       initialState={{

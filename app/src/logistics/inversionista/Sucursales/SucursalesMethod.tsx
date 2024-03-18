@@ -1,23 +1,23 @@
 import { IconButton, Tooltip } from "@mui/material"
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid"
 import { TFunctions } from "@type/default"
-import { TData, TUseServicios } from "@type/inversionista/TServicios"
+import { TData, TUseSucursales } from "@type/inversionista/TSucursales"
 import { consultBackend } from "src/utils/helper"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
 import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser"
 
 const initialState = (
-  setData: TUseServicios["setData"],
+  setData: TUseSucursales["setData"],
   messageApi: TFunctions["messageApi"]
 ) => {
-  consultBackend("servicios/obtener", {
+  consultBackend("sucursales/obtener", {
     params: {},
   })
     .then((response) => {
       response.json().then((data) => {
         if (data?.success) {
-          setData({ serviciosRows: data?.data })
+          setData({ sucursalesRows: data?.data })
         } else {
           messageApi(data?.message, { type: "error" })
         }
@@ -32,7 +32,7 @@ const initialState = (
 }
 
 const useMethod = (data: TData) => {
-  const columns = (setData: TUseServicios["setData"]) => {
+  const columns = (setData: TUseSucursales["setData"]) => {
     return [
       {
         field: "nombre",
@@ -44,33 +44,13 @@ const useMethod = (data: TData) => {
         flex: 1,
       },
       {
-        field: "precio",
-        headerName: "Precio",
+        field: "direccion",
+        headerName: "Dirección",
         type: "string",
         align: "left",
         headerAlign: "left",
         sortable: false,
         flex: 1,
-      },
-      {
-        field: "descripcion",
-        headerName: "Descripción",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-        sortable: false,
-        flex: 1,
-      },
-      {
-        field: "estado",
-        headerName: "Estado",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-        sortable: false,
-        flex: 1,
-        renderCell: (params: GridRenderCellParams<any, Date>) =>
-          params.row.estado ? "Activo" : "Inactivo",
       },
       {
         field: "action",
@@ -93,8 +73,7 @@ const useMethod = (data: TData) => {
                     addModalOpen: true,
                     createField: {
                       nombre: params.row.nombre,
-                      precio: params.row.precio,
-                      descripcion: params.row.descripcion,
+                      direccion: params.row.direccion,
                       id: params.row.id,
                     },
                   })
@@ -133,7 +112,7 @@ const useMethod = (data: TData) => {
   const create_onFinish = (
     event: React.FormEvent<HTMLFormElement> | null,
     messageApi: TFunctions["messageApi"],
-    setData: TUseServicios["setData"]
+    setData: TUseSucursales["setData"]
   ) => {
     event?.preventDefault()
     let existError = false
@@ -142,8 +121,6 @@ const useMethod = (data: TData) => {
       precio: 0,
     }
     if (data.createField.nombre?.length === 0) errors.nombre = true
-    if (data.createField.precio?.length === 0) errors.precio = 1
-    if (data.createField.precio?.slice(-1) === ".") errors.precio = 2
     for (const error in errors)
       if (errors[error as keyof typeof errors]) {
         existError = true
@@ -152,14 +129,13 @@ const useMethod = (data: TData) => {
     setData(errors, "errors")
     if (!existError) {
       consultBackend(
-        data.modifyMode ? "servicios/modificar" : "servicios/agregar",
+        data.modifyMode ? "sucursales/modificar" : "sucursales/agregar",
         {
           params: data.modifyMode
             ? data.createField
             : {
                 nombre: data.createField.nombre,
-                precio: data.createField.precio,
-                descripcion: data.createField.descripcion,
+                direccion: data.createField.direccion,
               },
           requestType: "post",
         }
@@ -169,8 +145,8 @@ const useMethod = (data: TData) => {
             if (response?.success) {
               messageApi(
                 data.modifyMode
-                  ? "El Servicio se modificó exitosamente."
-                  : "El Servicio se registró exitosamente.",
+                  ? "El Sucursal se modificó exitosamente."
+                  : "El Sucursal se registró exitosamente.",
                 {
                   type: "success",
                 }
@@ -179,8 +155,7 @@ const useMethod = (data: TData) => {
                 addModalOpen: false,
                 createField: {
                   nombre: "",
-                  precio: "",
-                  descripcion: "",
+                  direccion: "",
                   id: "",
                 },
               })
@@ -200,10 +175,10 @@ const useMethod = (data: TData) => {
   }
   const suspend_onClick = (
     messageApi: TFunctions["messageApi"],
-    setData: TUseServicios["setData"],
+    setData: TUseSucursales["setData"],
     id: string
   ) => {
-    consultBackend("servicios/suspender", {
+    consultBackend("sucursales/suspender", {
       params: { id: id },
       requestType: "post",
     })
@@ -211,7 +186,7 @@ const useMethod = (data: TData) => {
         response.json().then((data) => {
           if (data?.success) {
             setData({ open: false }, "suspenderPopover")
-            messageApi("El Servicio se suspendio exitosamente.", {
+            messageApi("El Sucursal se suspendio exitosamente.", {
               type: "success",
             })
             initialState(setData, messageApi)
@@ -230,10 +205,10 @@ const useMethod = (data: TData) => {
 
   const enable_onClick = (
     messageApi: TFunctions["messageApi"],
-    setData: TUseServicios["setData"],
+    setData: TUseSucursales["setData"],
     id: string
   ) => {
-    consultBackend("servicios/habilitar", {
+    consultBackend("sucursales/habilitar", {
       params: { id: id },
       requestType: "post",
     })
@@ -241,7 +216,7 @@ const useMethod = (data: TData) => {
         response.json().then((data) => {
           if (data?.success) {
             setData({ open: false }, "suspenderPopover")
-            messageApi("El Servicio se habilitó exitosamente.", {
+            messageApi("El Sucursal se habilitó exitosamente.", {
               type: "success",
             })
             initialState(setData, messageApi)
@@ -252,7 +227,7 @@ const useMethod = (data: TData) => {
       })
       .catch((error) => {
         console.error("Error:", error)
-        messageApi("El servicio no responde, intente más tarde.", {
+        messageApi("El sucursal no responde, intente más tarde.", {
           type: "error",
         })
       })

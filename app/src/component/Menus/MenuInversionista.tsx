@@ -35,9 +35,9 @@ const MenuInversionista = ({
           Servicios
         </Typography>
       </MenuItem>
-      <MenuItem onClick={() => handleClose("/inversionista/ejemplo-c")}>
+      <MenuItem onClick={() => handleClose("/inversionista/sucursales")}>
         <Typography variant="inherit" noWrap>
-          Ejemplo C
+          Sucursales
         </Typography>
       </MenuItem>
     </Menu>
