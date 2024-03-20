@@ -23,16 +23,14 @@ const MenuInventario = ({
       }}
       TransitionComponent={Fade}
     >
-      <MenuItem onClick={() => handleClose("/inventario/gestionar-inventario")}>
+      <MenuItem onClick={() => handleClose("/inventario/gestion-inventario")}>
         <Typography variant="inherit" noWrap>
-          Gestionar Inventario
+          Gestión de Inventario
         </Typography>
       </MenuItem>
-      <MenuItem
-        onClick={() => handleClose("/inventario/agregar-nuevo-producto")}
-      >
+      <MenuItem onClick={() => handleClose("/inventario/agregar-producto")}>
         <Typography variant="inherit" noWrap>
-          Agregar Nuevo Producto
+          Productos
         </Typography>
       </MenuItem>
       <MenuItem onClick={() => handleClose("/inventario/ejemplo-c")}>

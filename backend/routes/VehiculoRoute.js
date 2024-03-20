@@ -85,10 +85,10 @@ const VehiculoRoute = (fastify, options, next) => {
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      if (tipoVehiculo && tarifa) {
-        try {
-          const validateToken = verifyToken(token)
-          if (validateToken.success) {
+      try {
+        const validateToken = verifyToken(token)
+        if (validateToken.success) {
+          if (tipoVehiculo && tarifa) {
             const { id, role } = validateToken.data
             if (role === "INVERSIONISTA") {
               const result = await crearTarifa(tipoVehiculo, tarifa, id)
@@ -97,27 +97,27 @@ const VehiculoRoute = (fastify, options, next) => {
                 data: result,
               })
             }
-            return reply.code(404).send({
+            return reply.code(403).send({
               success: false,
               message: "No cuenta con los permisos suficientes.",
             })
           }
-          return reply.code(404).send({
+          return reply.code(403).send({
             success: false,
-            message: "No cuenta con los permisos suficientes.",
-          })
-        } catch (error) {
-          return reply.code(404).send({
-            success: false,
-            message: "Ocurrió un error inesperado, intente nuevamente.",
+            message:
+              "No cuenta con los parámetros suficientes para realizar la consulta.",
           })
         }
+        return reply.code(403).send({
+          success: false,
+          message: "No cuenta con los permisos suficientes.",
+        })
+      } catch (error) {
+        return reply.code(404).send({
+          success: false,
+          message: "Ocurrió un error inesperado, intente nuevamente.",
+        })
       }
-      return reply.code(403).send({
-        success: false,
-        message:
-          "No cuenta con los parámetros suficientes para realizar la consulta.",
-      })
     }
     return reply.code(401).send({
       success: false,

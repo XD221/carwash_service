@@ -9,25 +9,26 @@ import {
   FormHelperText,
 } from "@mui/material"
 import { TContextData } from "@type/default"
-import { TUseSucursales } from "@type/inversionista/TSucursales"
+import { TUseProductos } from "@type/inventario/TProductos"
+import { restrictAllowOnlyNumberDecimal } from "src/utils/helper"
 
-const AgregarSucursalesModal = ({
+const AgregarProductosModal = ({
   state,
   app,
 }: {
-  state: TUseSucursales
+  state: TUseProductos
   app: TContextData
 }) => {
   return (
     <Modal
-      title={state.data.modifyMode ? "Modificar Sucursal" : "Agregar Sucursal"}
+      title={state.data.modifyMode ? "Modificar Producto" : "Agregar Producto"}
       open={state.data.addModalOpen}
       onClose={() =>
         state.setData({
           addModalOpen: false,
           createField: {
             nombre: "",
-            direccion: "",
+            precio: "0",
             id: "",
           },
         })
@@ -68,23 +69,14 @@ const AgregarSucursalesModal = ({
                 </FormHelperText>
               )}
             </FormControl>
-            <FormControl fullWidth={state.data.createDireccionFieldFullWidth}>
-              <InputLabel>Dirección</InputLabel>
+            <FormControl>
+              <InputLabel>Precio</InputLabel>
               <Input
-                multiline={state.data.createDireccionFieldFullWidth}
-                value={state.data.createField.direccion}
-                inputProps={{ maxLength: 255 }}
-                autoFocus={state.data.createDireccionFieldFullWidth}
-                onFocus={(d) =>
-                  state.setData({ createDireccionFieldFullWidth: true })
-                }
-                onBlur={() =>
-                  state.setData({
-                    createDireccionFieldFullWidth: false,
-                  })
-                }
+                value={state.data.createField.precio}
+                inputProps={{ maxLength: 11 }}
+                onInput={(d) => restrictAllowOnlyNumberDecimal(d)}
                 onChange={(d) =>
-                  state.setData({ direccion: d.target.value }, "createField")
+                  state.setData({ precio: d.target.value }, "createField")
                 }
               />
             </FormControl>
@@ -105,4 +97,4 @@ const AgregarSucursalesModal = ({
   )
 }
 
-export default AgregarSucursalesModal
+export default AgregarProductosModal

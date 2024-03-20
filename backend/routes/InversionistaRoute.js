@@ -13,10 +13,10 @@ const InversionistaRoute = (fastify, options, next) => {
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      if (id && password) {
-        try {
-          const validateToken = verifyToken(token)
-          if (validateToken.success) {
+      try {
+        const validateToken = verifyToken(token)
+        if (validateToken.success) {
+          if (id && password) {
             const { role } = validateToken.data
             if (role === "ADMIN") {
               const persona = await obtenerById(id)
@@ -44,21 +44,21 @@ const InversionistaRoute = (fastify, options, next) => {
               })
             }
           }
-          return reply
-            .code(401)
-            .send({ success: false, message: "Acceso denegado." })
-        } catch (error) {
-          return reply.code(404).send({
+          return reply.code(403).send({
             success: false,
-            message: "Ocurrió un error inesperado, intente nuevamente.",
+            message:
+              "No cuenta con los parámetros suficientes para realizar la consulta.",
           })
         }
+        return reply
+          .code(401)
+          .send({ success: false, message: "Acceso denegado." })
+      } catch (error) {
+        return reply.code(404).send({
+          success: false,
+          message: "Ocurrió un error inesperado, intente nuevamente.",
+        })
       }
-      return reply.code(403).send({
-        success: false,
-        message:
-          "No cuenta con los parámetros suficientes para realizar la consulta.",
-      })
     }
     return reply.code(401).send({
       success: false,
@@ -71,18 +71,18 @@ const InversionistaRoute = (fastify, options, next) => {
     const auth = request.headers.authorization
     const token = auth.split(" ")[1]
     if (token) {
-      if (
-        typeof ci === "string" &&
-        typeof nombre === "string" &&
-        typeof apellido === "string" &&
-        typeof telefono === "string" &&
-        typeof direccion === "string" &&
-        typeof correo === "string" &&
-        typeof password === "string"
-      ) {
-        try {
-          const validateToken = verifyToken(token)
-          if (validateToken.success) {
+      try {
+        const validateToken = verifyToken(token)
+        if (validateToken.success) {
+          if (
+            typeof ci === "string" &&
+            typeof nombre === "string" &&
+            typeof apellido === "string" &&
+            typeof telefono === "string" &&
+            typeof direccion === "string" &&
+            typeof correo === "string" &&
+            typeof password === "string"
+          ) {
             const { role } = validateToken.data
             if (role === "ADMIN") {
               const persona = await obtener(null)
@@ -109,21 +109,21 @@ const InversionistaRoute = (fastify, options, next) => {
               })
             }
           }
-          return reply
-            .code(401)
-            .send({ success: false, message: "Acceso denegado." })
-        } catch (error) {
-          return reply.code(404).send({
+          return reply.code(403).send({
             success: false,
-            message: "Ocurrió un error inesperado, intente nuevamente.",
+            message:
+              "No cuenta con los parámetros suficientes para realizar la consulta.",
           })
         }
+        return reply
+          .code(401)
+          .send({ success: false, message: "Acceso denegado." })
+      } catch (error) {
+        return reply.code(404).send({
+          success: false,
+          message: "Ocurrió un error inesperado, intente nuevamente.",
+        })
       }
-      return reply.code(403).send({
-        success: false,
-        message:
-          "No cuenta con los parámetros suficientes para realizar la consulta.",
-      })
     }
     return reply.code(401).send({
       success: false,

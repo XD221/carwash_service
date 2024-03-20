@@ -76,7 +76,7 @@ model Sucursal {
 model Producto {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(35)
-    precio Decimal @db.Decimal(9,2)
+    precio Decimal @db.Decimal(11,2)
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     propietarioId Int

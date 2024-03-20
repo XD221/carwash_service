@@ -5,6 +5,12 @@ const prisma = new PrismaClient()
 export const obtener = async (idPropietario) => {
   return await prisma.sucursal.findMany({
     where: { propietarioId: Number(idPropietario) },
+    select: {
+      id: true,
+      nombre: true,
+      direccion: true,
+      estado: true,
+    },
   })
 }
 

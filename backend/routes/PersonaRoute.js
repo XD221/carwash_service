@@ -56,36 +56,48 @@ const PersonaRoute = (fastify, options, next) => {
       try {
         const validateToken = verifyToken(token)
         if (validateToken.success) {
-          let result = []
-          const { id, role } = validateToken.data
-          if (role === "ADMIN") {
-            result = await buscarNoInversionista(nombre, apellido, ci, null)
-          } else if (role === "INVERSIONISTA") {
-            result = await buscarNoInversionista(nombre, apellido, ci, id)
-          } else {
-            const info = await obtenerInfoById(id)
-            if (info?.length > 0) {
-              result = await buscarNoInversionista(
-                nombre,
-                apellido,
-                ci,
-                info.persona.propietarioId
-              )
+          if (
+            typeof nombre === "string" &&
+            typeof apellido === "string" &&
+            typeof ci === "string" &&
+            typeof telefono === "string"
+          ) {
+            let result = []
+            const { id, role } = validateToken.data
+            if (role === "ADMIN") {
+              result = await buscarNoInversionista(nombre, apellido, ci, null)
+            } else if (role === "INVERSIONISTA") {
+              result = await buscarNoInversionista(nombre, apellido, ci, id)
             } else {
-              return reply.code(403).send({
-                success: false,
-                message: "Usuario no encontrado.",
-              })
+              const info = await obtenerInfoById(id)
+              if (info?.length > 0) {
+                result = await buscarNoInversionista(
+                  nombre,
+                  apellido,
+                  ci,
+                  info.persona.propietarioId
+                )
+              } else {
+                return reply.code(403).send({
+                  success: false,
+                  message: "Usuario no encontrado.",
+                })
+              }
             }
+            return reply.code(200).send({
+              success: true,
+              data:
+                telefono?.length > 0
+                  ? result?.filter((data) =>
+                      data.telefono.toString().includes(telefono)
+                    )
+                  : result,
+            })
           }
-          return reply.code(200).send({
-            success: true,
-            data:
-              telefono?.length > 0
-                ? result?.filter((data) =>
-                    data.telefono.toString().includes(telefono)
-                  )
-                : result,
+          return reply.code(403).send({
+            success: false,
+            message:
+              "No cuenta con los parámetros suficientes para realizar la consulta.",
           })
         }
         return reply

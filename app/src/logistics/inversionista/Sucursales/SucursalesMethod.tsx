@@ -53,6 +53,17 @@ const useMethod = (data: TData) => {
         flex: 1,
       },
       {
+        field: "estado",
+        headerName: "Estado",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        renderCell: (params: GridRenderCellParams<any, Date>) =>
+          params.row.estado ? "Activo" : "Inactivo",
+      },
+      {
         field: "action",
         headerName: "Acciones",
         type: "string",
@@ -145,8 +156,8 @@ const useMethod = (data: TData) => {
             if (response?.success) {
               messageApi(
                 data.modifyMode
-                  ? "El Sucursal se modificó exitosamente."
-                  : "El Sucursal se registró exitosamente.",
+                  ? "La sucursal se modificó exitosamente."
+                  : "La sucursal se registró exitosamente.",
                 {
                   type: "success",
                 }
@@ -186,7 +197,7 @@ const useMethod = (data: TData) => {
         response.json().then((data) => {
           if (data?.success) {
             setData({ open: false }, "suspenderPopover")
-            messageApi("El Sucursal se suspendio exitosamente.", {
+            messageApi("La sucursal se suspendio exitosamente.", {
               type: "success",
             })
             initialState(setData, messageApi)
@@ -216,7 +227,7 @@ const useMethod = (data: TData) => {
         response.json().then((data) => {
           if (data?.success) {
             setData({ open: false }, "suspenderPopover")
-            messageApi("El Sucursal se habilitó exitosamente.", {
+            messageApi("La sucursal se habilitó exitosamente.", {
               type: "success",
             })
             initialState(setData, messageApi)
@@ -227,7 +238,7 @@ const useMethod = (data: TData) => {
       })
       .catch((error) => {
         console.error("Error:", error)
-        messageApi("El sucursal no responde, intente más tarde.", {
+        messageApi("El servicio no responde, intente más tarde.", {
           type: "error",
         })
       })

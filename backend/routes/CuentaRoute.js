@@ -81,10 +81,9 @@ const CuentaRoute = (fastify, options, next) => {
           .send({ success: false, message: validateToken.message })
       }
     }
-    return reply.code(404).send({
+    return reply.code(401).send({
       success: false,
-      message:
-        "No cuenta con los parámetros suficientes para realizar la consulta.",
+      message: "Acceso denegado.",
     })
   })
 

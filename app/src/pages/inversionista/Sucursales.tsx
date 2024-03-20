@@ -3,7 +3,7 @@ import { Button, Card, CardContent, CardHeader } from "@mui/material"
 import { useLayoutEffect } from "react"
 import { useApp } from "src/context/AppContext"
 import { useSucursales } from "src/context/InversionistaContext"
-import AgregarSucursalesModal from "./Sucursales/agregarSucursalesModal"
+import AgregarSucursalesModal from "./sucursales/agregarSucursalesModal"
 import PopoverConfirm from "@component/PopoverConfirm"
 
 const Sucursales = () => {
@@ -41,8 +41,8 @@ const Sucursales = () => {
       <PopoverConfirm
         message={
           state.data.suspendData.estado
-            ? "¿Estás seguro que deseas suspender este servicio?"
-            : "¿Estás seguro que deseas habilitar este servicio?"
+            ? "¿Estás seguro que deseas suspender esta sucursal?"
+            : "¿Estás seguro que deseas habilitar esta sucursal?"
         }
         open={state.data.suspenderPopover.open}
         onClose={() => state.setData({ open: false }, "suspenderPopover")}

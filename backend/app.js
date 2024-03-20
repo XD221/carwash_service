@@ -26,6 +26,12 @@ export default async function (fastify, opts) {
   fastify.register(import("./routes/SucursalesRoute.js"), {
     prefix: "/sucursales",
   })
+  fastify.register(import("./routes/ProductosRoute.js"), {
+    prefix: "/productos",
+  })
+  fastify.register(import("./routes/InventarioRoute.js"), {
+    prefix: "/inventario",
+  })
 
   // Configure the server!
   fastify.register(import("@fastify/cors"))

@@ -36,6 +36,7 @@ export const obtenerInfoById = async (id) => {
     },
     select: {
       personaId: true,
+      sucursalId: true,
       persona: {
         select: {
           nombre: true,
