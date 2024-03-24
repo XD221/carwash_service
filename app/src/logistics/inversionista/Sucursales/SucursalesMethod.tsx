@@ -1,11 +1,12 @@
 import { IconButton, Tooltip } from "@mui/material"
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid"
-import { TFunctions } from "@type/default"
+import { TContextData, TFunctions } from "@type/default"
 import { TData, TUseSucursales } from "@type/inversionista/TSucursales"
 import { consultBackend } from "src/utils/helper"
 import EditIcon from "@mui/icons-material/Edit"
-import DeleteIcon from "@mui/icons-material/Delete"
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline"
 import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser"
+import AssignmentIcon from "@mui/icons-material/Assignment"
 
 const initialState = (
   setData: TUseSucursales["setData"],
@@ -32,7 +33,169 @@ const initialState = (
 }
 
 const useMethod = (data: TData) => {
-  const columns = (setData: TUseSucursales["setData"]) => {
+  const suspendServicio_onClick = (
+    messageApi: TFunctions["messageApi"],
+    setData: TUseSucursales["setData"]
+  ) => {
+    consultBackend("servicios/suspender", {
+      params: {
+        servicioId: data.suspendData.id.toString(),
+        sucursalId: data.assignData.id.toString(),
+      },
+      requestType: "post",
+    })
+      .then((response) => {
+        response.json().then((response) => {
+          if (response?.success) {
+            setData({ open: false }, "suspenderPopover")
+            messageApi("El servicio se suspendio exitosamente.", {
+              type: "success",
+            })
+            serviciosSucursal_initialState(
+              setData,
+              messageApi,
+              Number(data.assignData.id)
+            )
+          } else {
+            messageApi(response?.message, { type: "error" })
+          }
+        })
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        messageApi("El servicio no responde, intente más tarde.", {
+          type: "error",
+        })
+      })
+  }
+
+  const enableServicio_onClick = (
+    messageApi: TFunctions["messageApi"],
+    setData: TUseSucursales["setData"]
+  ) => {
+    consultBackend("servicios/habilitar", {
+      params: {
+        servicioId: data.suspendData.id.toString(),
+        sucursalId: data.assignData.id.toString(),
+      },
+      requestType: "post",
+    })
+      .then((response) => {
+        response.json().then((response) => {
+          if (response?.success) {
+            setData({ open: false }, "suspenderPopover")
+            messageApi("El servicio se habilitó exitosamente.", {
+              type: "success",
+            })
+            serviciosSucursal_initialState(
+              setData,
+              messageApi,
+              Number(data.assignData.id)
+            )
+          } else {
+            messageApi(response?.message, { type: "error" })
+          }
+        })
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        messageApi("El servicio no responde, intente más tarde.", {
+          type: "error",
+        })
+      })
+  }
+  const agregarServiciosSucursal = (
+    event: React.FormEvent<HTMLFormElement> | null,
+    messageApi: TFunctions["messageApi"],
+    setData: TUseSucursales["setData"],
+    setServicioField: Function
+  ) => {
+    event?.preventDefault()
+    let error = false
+    if (data.assignData.servicioId === "") error = true
+    if (error !== data.assignData.error)
+      setData({ error, loading: !error }, "assignData")
+    if (!error) {
+      consultBackend("servicios/agregarServicioSucursal", {
+        requestType: "post",
+        params: {
+          sucursalId: data.assignData.id.toString(),
+          servicioId: data.assignData.servicioId.toString(),
+        },
+      })
+        .then((response) => {
+          response.json().then((response) => {
+            if (response?.success) {
+              serviciosSucursal_initialState(
+                setData,
+                messageApi,
+                Number(data.assignData.id)
+              )
+              setServicioField("")
+            } else {
+              messageApi(response?.message, { type: "error" })
+            }
+          })
+        })
+        .catch((error) => {
+          console.error("Error:", error)
+          messageApi("El servicio no responde, intente más tarde.", {
+            type: "error",
+          })
+        })
+    }
+    //
+  }
+
+  const serviciosSucursal_initialState = (
+    setData: TUseSucursales["setData"],
+    messageApi: TFunctions["messageApi"],
+    sucursalId: number
+  ) => {
+    consultBackend("servicios/obtenerServiciosSucursal", {
+      params: { sucursalId: sucursalId.toString() },
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          if (data?.success) {
+            setData({ serviciosSucursalRows: data?.data })
+          } else {
+            messageApi(data?.message, { type: "error" })
+          }
+        })
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        messageApi("El servicio no responde, intente más tarde.", {
+          type: "error",
+        })
+      })
+    if (data.serviciosData.length === 0) {
+      consultBackend("servicios/obtener", {
+        params: { sucursalId: sucursalId.toString() },
+      })
+        .then((response) => {
+          response.json().then((data) => {
+            if (data?.success) {
+              setData({ serviciosData: data?.data })
+            } else {
+              messageApi(data?.message, { type: "error" })
+            }
+          })
+        })
+        .catch((error) => {
+          console.error("Error:", error)
+          messageApi("El servicio no responde, intente más tarde.", {
+            type: "error",
+          })
+        })
+    }
+  }
+
+  const columns = (
+    setData: TUseSucursales["setData"],
+    messageApi: TFunctions["messageApi"]
+  ) => {
     return [
       {
         field: "nombre",
@@ -71,9 +234,31 @@ const useMethod = (data: TData) => {
         headerAlign: "left",
         sortable: false,
         flex: 1,
-        maxWidth: 100,
+        maxWidth: 110,
         renderCell: (params: GridRenderCellParams<any, Date>) => (
           <>
+            <Tooltip title="Ver servicios" arrow>
+              <IconButton
+                size="small"
+                color="info"
+                onClick={() => {
+                  setData(
+                    {
+                      open: true,
+                      id: params.row.id.toString(),
+                    },
+                    "assignData"
+                  )
+                  serviciosSucursal_initialState(
+                    setData,
+                    messageApi,
+                    params.row.id
+                  )
+                }}
+              >
+                <AssignmentIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Modificar" arrow>
               <IconButton
                 size="small"
@@ -110,7 +295,98 @@ const useMethod = (data: TData) => {
                   })
                 }
               >
-                {params.row.estado ? <DeleteIcon /> : <OpenInBrowserIcon />}
+                {params.row.estado ? (
+                  <RemoveCircleOutlineIcon />
+                ) : (
+                  <OpenInBrowserIcon />
+                )}
+              </IconButton>
+            </Tooltip>
+          </>
+        ),
+      },
+    ] as GridColDef[]
+  }
+
+  const serviciosSucuralColumns = (setData: TUseSucursales["setData"]) => {
+    return [
+      {
+        field: "nombre",
+        headerName: "Nombre",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        renderCell: (params: GridRenderCellParams<any, Date>) =>
+          params.row.servicio.nombre,
+      },
+      {
+        field: "precio",
+        headerName: "Precio",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        renderCell: (params: GridRenderCellParams<any, Date>) =>
+          params.row.servicio.precio,
+      },
+      {
+        field: "descripcion",
+        headerName: "Descripción",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        renderCell: (params: GridRenderCellParams<any, Date>) =>
+          params.row.servicio.descripcion,
+      },
+      {
+        field: "estado",
+        headerName: "Estado",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        renderCell: (params: GridRenderCellParams<any, Date>) =>
+          params.row.estado ? "Activo" : "Inactivo",
+      },
+      {
+        field: "action",
+        headerName: "Acciones",
+        type: "string",
+        align: "center",
+        headerAlign: "left",
+        sortable: false,
+        flex: 1,
+        maxWidth: 100,
+        renderCell: (params: GridRenderCellParams<any, Date>) => (
+          <>
+            <Tooltip
+              title={params.row.estado ? "Suspender" : "Habilitar"}
+              arrow
+            >
+              <IconButton
+                size="small"
+                color={params.row.estado ? "error" : "warning"}
+                onClick={(d) =>
+                  setData({
+                    suspenderPopover: { open: true, anchorEl: d.currentTarget },
+                    suspendData: {
+                      estado: params.row.estado,
+                      id: params.row.servicio.id,
+                    },
+                  })
+                }
+              >
+                {params.row.estado ? (
+                  <RemoveCircleOutlineIcon />
+                ) : (
+                  <OpenInBrowserIcon />
+                )}
               </IconButton>
             </Tooltip>
           </>
@@ -245,10 +521,15 @@ const useMethod = (data: TData) => {
   }
   return {
     columns,
+    serviciosSucuralColumns,
     create_onFinish,
     suspend_onClick,
     enable_onClick,
+    suspendServicio_onClick,
+    enableServicio_onClick,
     initialState,
+    serviciosSucursal_initialState,
+    agregarServiciosSucursal,
   }
 }
 

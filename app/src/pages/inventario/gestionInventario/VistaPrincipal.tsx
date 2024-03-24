@@ -28,10 +28,11 @@ const VistaPrincipal = ({
             onClick={() =>
               state.setData({
                 addModalOpen: !state.data.addModalOpen,
+                increasedStockMode: false,
               })
             }
           >
-            Agregar Producto
+            Agregar producto
           </Button>
         </div>
         <CustomTable

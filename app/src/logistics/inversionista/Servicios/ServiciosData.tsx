@@ -10,10 +10,6 @@ const useData = () => {
       descripcion: "",
       id: "", // Only modify Mode
     },
-    suspendData: {
-      estado: false,
-      id: "",
-    },
   }
   return {
     ...defaultValues,
@@ -21,7 +17,6 @@ const useData = () => {
     createDescripcionFieldFullWidth: false,
     serviciosRows: [],
     modifyMode: false,
-    suspenderPopover: { open: false, anchorEl: null },
   }
 }
 

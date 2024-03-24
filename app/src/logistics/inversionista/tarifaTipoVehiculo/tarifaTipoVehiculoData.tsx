@@ -1,15 +1,6 @@
 import { GridRowsProp } from "@mui/x-data-grid"
 import { TTipoVehiculoDataFormat } from "@type/inversionista/TTarifaTipoVehiculo"
 
-const modalStyle = {
-  position: "fixed",
-  zIndex: 1300,
-  inset: 0,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}
-
 const useData = () => {
   const defaultValues = {
     tarifaRows: [] as GridRowsProp,
@@ -26,7 +17,7 @@ const useData = () => {
   return {
     ...defaultValues,
     addModalOpen: false,
-    modalStyle,
+    modifyMode: false,
   }
 }
 

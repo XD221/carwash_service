@@ -2,9 +2,9 @@ import { PrismaClient, TipoVehiculo } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const obtenerTarifaTipoVehiculo = async (idPropietario) => {
+export const obtenerTarifaTipoVehiculo = async (propietarioId) => {
   return await prisma.tarifaTipoVehiculo.findMany({
-    where: { propietarioId: Number(idPropietario) },
+    where: { propietarioId: Number(propietarioId) },
     orderBy: { estado: "desc" },
   })
 }

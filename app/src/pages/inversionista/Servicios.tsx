@@ -4,7 +4,6 @@ import { useLayoutEffect } from "react"
 import { useApp } from "src/context/AppContext"
 import { useServicios } from "src/context/InversionistaContext"
 import AgregarServiciosModal from "./servicios/agregarServiciosModal"
-import PopoverConfirm from "@component/PopoverConfirm"
 
 const Servicios = () => {
   const state = useServicios()
@@ -38,33 +37,6 @@ const Servicios = () => {
         </CardContent>
       </Card>
       <AgregarServiciosModal state={state} app={app} />
-      <PopoverConfirm
-        message={
-          state.data.suspendData.estado
-            ? "¿Estás seguro que deseas suspender este servicio?"
-            : "¿Estás seguro que deseas habilitar este servicio?"
-        }
-        open={state.data.suspenderPopover.open}
-        onClose={() => state.setData({ open: false }, "suspenderPopover")}
-        onConfirm={() =>
-          state.data.suspendData.estado
-            ? state.functions.suspend_onClick(
-                app.functions.messageApi,
-                state.setData,
-                state.data.suspendData.id
-              )
-            : state.functions.enable_onClick(
-                app.functions.messageApi,
-                state.setData,
-                state.data.suspendData.id
-              )
-        }
-        anchorEl={state.data.suspenderPopover.anchorEl}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      />
     </>
   )
 }

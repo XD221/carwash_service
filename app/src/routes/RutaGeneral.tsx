@@ -4,7 +4,6 @@ import Admin from "@routes/AdminRoute"
 import Cuenta from "@routes/CuentaRoute"
 import Inventario from "@routes/InventarioRoute"
 import Inversionista from "@routes/InversionistaRoute"
-import Operador from "@routes/OperadorRoute"
 import Persona from "@routes/PersonaRoute"
 
 const RutaGeneralRoute = [
@@ -23,10 +22,6 @@ const RutaGeneralRoute = [
   {
     path: "inversionista",
     children: Inversionista,
-  },
-  {
-    path: "operador",
-    children: Operador,
   },
   {
     path: "persona",

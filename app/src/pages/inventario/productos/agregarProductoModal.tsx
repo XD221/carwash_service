@@ -21,7 +21,7 @@ const AgregarProductosModal = ({
 }) => {
   return (
     <Modal
-      title={state.data.modifyMode ? "Modificar Producto" : "Agregar Producto"}
+      title={state.data.modifyMode ? "Modificar producto" : "Agregar producto"}
       open={state.data.addModalOpen}
       onClose={() =>
         state.setData({

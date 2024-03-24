@@ -38,20 +38,6 @@ function HeadBar() {
     setOpen(newOpen)
   }
 
-  // const scrollToSection = (sectionId: string) => {
-  //   const sectionElement = document.getElementById(sectionId)
-  //   const offset = 128
-  //   if (sectionElement) {
-  //     const targetScroll = sectionElement.offsetTop - offset
-  //     sectionElement.scrollIntoView({ behavior: "smooth" })
-  //     window.scrollTo({
-  //       top: targetScroll,
-  //       behavior: "smooth",
-  //     })
-  //     setOpen(false)
-  //   }
-  // }
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -147,25 +133,14 @@ function HeadBar() {
                   </Typography>
                 </Button>
                 <Button
-                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-controls="personaMenu"
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                   onClick={handleClick}
                   sx={{ py: "6px", px: "12px" }}
                 >
                   <Typography variant="body2" color="text.primary">
-                    Operador
-                  </Typography>
-                </Button>
-                <Button
-                  aria-controls={open ? "basic-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                  sx={{ py: "6px", px: "12px" }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Sucursal
+                    Persona
                   </Typography>
                 </Button>
               </Box>
@@ -295,7 +270,7 @@ function HeadBar() {
         </Container>
       </AppBar>
       <MenuController
-        id="adminMenu"
+        id="menuController"
         controlName={controlName}
         anchorEl={anchorEl}
         open={open}

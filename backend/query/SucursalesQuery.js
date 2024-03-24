@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const obtener = async (idPropietario) => {
+export const obtener = async (propietarioId) => {
   return await prisma.sucursal.findMany({
-    where: { propietarioId: Number(idPropietario) },
+    where: { propietarioId: Number(propietarioId) },
     select: {
       id: true,
       nombre: true,
@@ -14,10 +14,10 @@ export const obtener = async (idPropietario) => {
   })
 }
 
-export const obtenerByNombre = async (nombre, id, idPropietario) => {
+export const obtenerByNombre = async (nombre, id, propietarioId) => {
   return await prisma.sucursal.findMany({
     where: {
-      propietarioId: Number(idPropietario),
+      propietarioId: Number(propietarioId),
       id: {
         not: Number(id),
       },
@@ -26,9 +26,9 @@ export const obtenerByNombre = async (nombre, id, idPropietario) => {
   })
 }
 
-export const obtenerDisponibles = async (idPropietario) => {
+export const obtenerDisponibles = async (propietarioId) => {
   return await prisma.sucursal.findMany({
-    where: { propietarioId: Number(idPropietario), estado: true },
+    where: { propietarioId: Number(propietarioId), estado: true },
   })
 }
 

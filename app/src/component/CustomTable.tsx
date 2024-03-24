@@ -3,6 +3,7 @@ import {
   // GridRowModesModel,
   // GridRowModes,
   DataGrid,
+  DataGridProps,
   GridColDef,
   // GridToolbarContainer,
   // GridActionsCellItem,
@@ -17,7 +18,7 @@ const CustomTable = ({
   columns,
   rows,
   ...props
-}: {
+}: DataGridProps & {
   rows: GridRowsProp
   columns: GridColDef[]
 }) => {
@@ -27,6 +28,7 @@ const CustomTable = ({
       rows={rows}
       columns={columns}
       // hideFooter={true}
+      autoHeight
       rowHeight={40}
       columnHeaderHeight={30}
       initialState={{

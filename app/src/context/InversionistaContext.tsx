@@ -4,6 +4,8 @@ import useData_Servicios from "@logistics/inversionista/Servicios/ServiciosData"
 import useMethod_Servicios from "@logistics/inversionista/Servicios/ServiciosMethod"
 import useData_Sucursales from "@logistics/inversionista/Sucursales/SucursalesData"
 import useMethod_Sucursales from "@logistics/inversionista/Sucursales/SucursalesMethod"
+import useData_Operadores from "@logistics/inversionista/Operadores/OperadoresData"
+import useMethod_Operadores from "@logistics/inversionista/Operadores/OperadoresMethod"
 import {
   TData as TData_Servicios,
   TUseServicios,

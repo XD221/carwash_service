@@ -13,3 +13,8 @@ type TUseState = {
 type TUseActions = {
   setData: (data: Partial<TData> | any, name?: Partial<keyof TData>) => void
 }
+
+export type TServicioFormat = {
+  id: number
+  nombre: string
+}

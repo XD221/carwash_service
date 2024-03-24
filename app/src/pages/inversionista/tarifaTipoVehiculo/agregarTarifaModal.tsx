@@ -23,7 +23,7 @@ const AgregarTarifaModal = ({
 }) => {
   return (
     <Modal
-      title="Agregar Tarifa"
+      title="Agregar tarifa"
       open={state.data.addModalOpen}
       onClose={() =>
         state.setData({

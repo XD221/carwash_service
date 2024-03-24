@@ -1,17 +1,41 @@
-import { PrismaClient, TipoVehiculo } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const obtener = async (idPropietario) => {
+export const obtener = async (propietarioId) => {
   return await prisma.servicio.findMany({
-    where: { propietarioId: Number(idPropietario) },
+    where: { propietarioId: Number(propietarioId) },
   })
 }
 
-export const obtenerByNombre = async (nombre, id, idPropietario) => {
+export const obtenerServiciosSucursal = async (sucursalId, propietarioId) => {
+  return await prisma.sucursalServicio.findMany({
+    where: {
+      sucursalId: Number(sucursalId),
+      sucursal: {
+        propietarioId: {
+          equals: Number(propietarioId),
+        },
+      },
+    },
+    select: {
+      estado: true,
+      servicio: {
+        select: {
+          id: true,
+          nombre: true,
+          precio: true,
+          descripcion: true,
+        },
+      },
+    },
+  })
+}
+
+export const obtenerByNombre = async (nombre, id, propietarioId) => {
   return await prisma.servicio.findMany({
     where: {
-      propietarioId: Number(idPropietario),
+      propietarioId: Number(propietarioId),
       id: {
         not: Number(id),
       },
@@ -20,9 +44,27 @@ export const obtenerByNombre = async (nombre, id, idPropietario) => {
   })
 }
 
-export const obtenerDisponibles = async (idPropietario) => {
+export const obtenerServiciosSucursalById = async (servicioId, sucursalId) => {
+  return await prisma.sucursalServicio.findFirst({
+    where: {
+      servicioId: Number(servicioId),
+      sucursalId: Number(sucursalId),
+    },
+  })
+}
+
+export const agregarServicioSucursal = async (servicioId, sucursalId) => {
+  return await prisma.sucursalServicio.create({
+    data: {
+      servicioId: Number(servicioId),
+      sucursalId: Number(sucursalId),
+    },
+  })
+}
+
+export const obtenerDisponibles = async (propietarioId) => {
   return await prisma.servicio.findMany({
-    where: { propietarioId: Number(idPropietario), estado: true },
+    where: { propietarioId: Number(propietarioId), estado: true },
   })
 }
 
@@ -54,11 +96,13 @@ export const modificar = async (
   })
 }
 
-export const suspender = async (id, propietarioId) => {
-  return await prisma.servicio.update({
+export const suspender = async (sucursalId, servicioId) => {
+  return await prisma.sucursalServicio.update({
     where: {
-      id: Number(id),
-      propietarioId: Number(propietarioId),
+      servicioId_sucursalId: {
+        sucursalId: Number(sucursalId),
+        servicioId: Number(servicioId),
+      },
       estado: true,
     },
     data: {
@@ -67,11 +111,13 @@ export const suspender = async (id, propietarioId) => {
   })
 }
 
-export const habilitar = async (id, propietarioId) => {
-  return await prisma.servicio.update({
+export const habilitar = async (sucursalId, servicioId) => {
+  return await prisma.sucursalServicio.update({
     where: {
-      id: Number(id),
-      propietarioId: Number(propietarioId),
+      servicioId_sucursalId: {
+        sucursalId: Number(sucursalId),
+        servicioId: Number(servicioId),
+      },
       estado: false,
     },
     data: {

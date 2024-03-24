@@ -5,6 +5,7 @@ import { useApp } from "src/context/AppContext"
 import { useSucursales } from "src/context/InversionistaContext"
 import AgregarSucursalesModal from "./sucursales/agregarSucursalesModal"
 import PopoverConfirm from "@component/PopoverConfirm"
+import VistaServiciosSucuralModal from "./sucursales/vistaServiciosSucuralModal"
 
 const Sucursales = () => {
   const state = useSucursales()
@@ -32,22 +33,40 @@ const Sucursales = () => {
             </Button>
           </div>
           <CustomTable
-            columns={state.functions.columns(state.setData)}
+            columns={state.functions.columns(
+              state.setData,
+              app.functions.messageApi
+            )}
             rows={state.data.sucursalesRows}
           />
         </CardContent>
       </Card>
       <AgregarSucursalesModal state={state} app={app} />
+      <VistaServiciosSucuralModal state={state} app={app} />
       <PopoverConfirm
         message={
-          state.data.suspendData.estado
+          state.data.assignData.open
+            ? state.data.suspendData.estado
+              ? "¿Estás seguro que deseas suspender este servicio?"
+              : "¿Estás seguro que deseas habilitar este servicio?"
+            : state.data.suspendData.estado
             ? "¿Estás seguro que deseas suspender esta sucursal?"
             : "¿Estás seguro que deseas habilitar esta sucursal?"
         }
         open={state.data.suspenderPopover.open}
         onClose={() => state.setData({ open: false }, "suspenderPopover")}
         onConfirm={() =>
-          state.data.suspendData.estado
+          state.data.assignData.open
+            ? state.data.suspendData.estado
+              ? state.functions.suspendServicio_onClick(
+                  app.functions.messageApi,
+                  state.setData
+                )
+              : state.functions.enableServicio_onClick(
+                  app.functions.messageApi,
+                  state.setData
+                )
+            : state.data.suspendData.estado
             ? state.functions.suspend_onClick(
                 app.functions.messageApi,
                 state.setData,

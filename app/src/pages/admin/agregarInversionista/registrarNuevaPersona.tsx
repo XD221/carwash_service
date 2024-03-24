@@ -93,7 +93,7 @@ const RegistrarNuevaPersona = ({
               error={state.data.errors.telefono}
               value={state.data.createField.telefono}
               onInput={(d) => restrictAllowOnlyNumber(d)}
-              inputProps={{ maxLength: 9 }}
+              inputProps={{ maxLength: 11 }}
               onChange={(d) =>
                 state.setData({ telefono: d.target.value }, "createField")
               }

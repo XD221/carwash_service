@@ -25,17 +25,7 @@ const MenuAdmin = ({
     >
       <MenuItem onClick={() => handleClose("/admin/agregar-inversionista")}>
         <Typography variant="inherit" noWrap>
-          Agregar Inversionista
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={() => handleClose("/admin/ejemplo-b")}>
-        <Typography variant="inherit" noWrap>
-          Ejemplo B
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={() => handleClose("/admin/ejemplo-c")}>
-        <Typography variant="inherit" noWrap>
-          Ejemplo C
+          Agregar inversionista
         </Typography>
       </MenuItem>
     </Menu>

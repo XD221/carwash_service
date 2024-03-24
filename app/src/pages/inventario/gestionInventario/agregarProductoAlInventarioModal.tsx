@@ -26,15 +26,18 @@ const AgregarProductoAlInventarioModal = ({
 }) => {
   return (
     <Modal
-      title="Agregar producto al inventario"
+      title={
+        state.data.increasedStockMode
+          ? "Incrementar Stock del producto"
+          : "Agregar producto al inventario"
+      }
       open={state.data.addModalOpen}
       onClose={() =>
         state.setData({
           addModalOpen: false,
           createField: {
-            producto: "",
+            productoId: "",
             cant_init: "0",
-            id: "",
           },
         })
       }
@@ -48,23 +51,35 @@ const AgregarProductoAlInventarioModal = ({
             flexDirection="column"
             alignItems="center"
             onSubmit={(d) =>
-              state.functions.create_onFinish(
-                d,
-                app.functions.messageApi,
-                state.setData
-              )
+              state.data.increasedStockMode
+                ? state.functions.increasedStock_onFinish(
+                    d,
+                    app.functions.messageApi,
+                    state.setData
+                  )
+                : state.functions.create_onFinish(
+                    d,
+                    app.functions.messageApi,
+                    state.setData
+                  )
             }
             gap={2}
           >
             <FormControl variant="standard" sx={{ width: "60%" }}>
               <Autocomplete
                 options={state.data.productosRows}
+                value={state.data.createField.producto}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                disabled={state.data.increasedStockMode}
                 autoComplete
                 includeInputInList
                 getOptionLabel={(d: TProductoFormat) => d.nombre}
                 onChange={(_, value) =>
                   state.setData(
-                    { producto: value?.id?.toString() ?? "" },
+                    {
+                      productoId: value?.id?.toString() ?? "",
+                      producto: value,
+                    },
                     "createField"
                   )
                 }
@@ -72,13 +87,13 @@ const AgregarProductoAlInventarioModal = ({
                   <TextField
                     {...params}
                     label="Producto"
-                    error={state.data.errors.producto}
+                    error={state.data.errors.productoId}
                     variant="standard"
                     required
                   />
                 )}
               />
-              {state.data.errors.producto && (
+              {state.data.errors.productoId && (
                 <FormHelperText>Debe seleccionar un producto.</FormHelperText>
               )}
             </FormControl>

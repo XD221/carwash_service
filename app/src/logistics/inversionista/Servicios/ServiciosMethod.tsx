@@ -4,8 +4,6 @@ import { TFunctions } from "@type/default"
 import { TData, TUseServicios } from "@type/inversionista/TServicios"
 import { consultBackend } from "src/utils/helper"
 import EditIcon from "@mui/icons-material/Edit"
-import DeleteIcon from "@mui/icons-material/Delete"
-import OpenInBrowserIcon from "@mui/icons-material/OpenInBrowser"
 
 const initialState = (
   setData: TUseServicios["setData"],
@@ -62,17 +60,6 @@ const useMethod = (data: TData) => {
         flex: 1,
       },
       {
-        field: "estado",
-        headerName: "Estado",
-        type: "string",
-        align: "left",
-        headerAlign: "left",
-        sortable: false,
-        flex: 1,
-        renderCell: (params: GridRenderCellParams<any, Date>) =>
-          params.row.estado ? "Activo" : "Inactivo",
-      },
-      {
         field: "action",
         headerName: "Acciones",
         type: "string",
@@ -101,26 +88,6 @@ const useMethod = (data: TData) => {
                 }
               >
                 <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              title={params.row.estado ? "Suspender" : "Habilitar"}
-              arrow
-            >
-              <IconButton
-                size="small"
-                color={params.row.estado ? "error" : "warning"}
-                onClick={(d) =>
-                  setData({
-                    suspenderPopover: { open: true, anchorEl: d.currentTarget },
-                    suspendData: {
-                      estado: params.row.estado,
-                      id: params.row.id,
-                    },
-                  })
-                }
-              >
-                {params.row.estado ? <DeleteIcon /> : <OpenInBrowserIcon />}
               </IconButton>
             </Tooltip>
           </>
@@ -198,70 +165,9 @@ const useMethod = (data: TData) => {
         })
     }
   }
-  const suspend_onClick = (
-    messageApi: TFunctions["messageApi"],
-    setData: TUseServicios["setData"],
-    id: string
-  ) => {
-    consultBackend("servicios/suspender", {
-      params: { id: id },
-      requestType: "post",
-    })
-      .then((response) => {
-        response.json().then((data) => {
-          if (data?.success) {
-            setData({ open: false }, "suspenderPopover")
-            messageApi("El Servicio se suspendio exitosamente.", {
-              type: "success",
-            })
-            initialState(setData, messageApi)
-          } else {
-            messageApi(data?.message, { type: "error" })
-          }
-        })
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-        messageApi("El servicio no responde, intente más tarde.", {
-          type: "error",
-        })
-      })
-  }
-
-  const enable_onClick = (
-    messageApi: TFunctions["messageApi"],
-    setData: TUseServicios["setData"],
-    id: string
-  ) => {
-    consultBackend("servicios/habilitar", {
-      params: { id: id },
-      requestType: "post",
-    })
-      .then((response) => {
-        response.json().then((data) => {
-          if (data?.success) {
-            setData({ open: false }, "suspenderPopover")
-            messageApi("El Servicio se habilitó exitosamente.", {
-              type: "success",
-            })
-            initialState(setData, messageApi)
-          } else {
-            messageApi(data?.message, { type: "error" })
-          }
-        })
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-        messageApi("El servicio no responde, intente más tarde.", {
-          type: "error",
-        })
-      })
-  }
   return {
     columns,
     create_onFinish,
-    suspend_onClick,
-    enable_onClick,
     initialState,
   }
 }

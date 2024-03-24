@@ -2,6 +2,7 @@ import MenuAdmin from "./Menus/MenuAdmin"
 import MenuCuenta from "./Menus/MenuCuenta"
 import MenuInventario from "./Menus/MenuInventario"
 import MenuInversionista from "./Menus/MenuInversionista"
+import MenuPersona from "./Menus/MenuPersona"
 
 const MenuController = ({
   id,
@@ -15,6 +16,7 @@ const MenuController = ({
     inversionista: "inversionistaMenu",
     operador: "operadorMenu",
     sucursal: "sucursalMenu",
+    persona: "personaMenu",
   },
   handleClose,
 }: {
@@ -29,6 +31,7 @@ const MenuController = ({
     inversionista: string
     operador: string
     sucursal: string
+    persona: string
   }
   handleClose: (route?: string) => void
 }) => {
@@ -63,6 +66,15 @@ const MenuController = ({
     return (
       <MenuCuenta
         id={menuNames.cuenta}
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+      />
+    )
+  else if (controlName === menuNames.persona)
+    return (
+      <MenuPersona
+        id={menuNames.persona}
         anchorEl={anchorEl}
         open={open}
         handleClose={handleClose}

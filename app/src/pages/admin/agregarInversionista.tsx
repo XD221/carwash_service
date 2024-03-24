@@ -19,7 +19,7 @@ const AgregarInversionista = () => {
     <Card elevation={4}>
       <CardHeader
         style={{ textAlign: "center" }}
-        title="Agregar Inversionista"
+        title="Agregar inversionista"
       />
       <CardContent>
         <Box my={1} display="flex" flexDirection="column" alignItems="center">

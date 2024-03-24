@@ -1,7 +1,7 @@
 import { Menu, MenuItem, Typography } from "@mui/material"
 import Fade from "@mui/material/Fade"
 
-const MenuInventario = ({
+const MenuPersona = ({
   id,
   anchorEl,
   open,
@@ -23,18 +23,13 @@ const MenuInventario = ({
       }}
       TransitionComponent={Fade}
     >
-      <MenuItem onClick={() => handleClose("/inventario/gestion-inventario")}>
+      <MenuItem onClick={() => handleClose("/persona/gestion-persona")}>
         <Typography variant="inherit" noWrap>
-          Gestión de inventario
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={() => handleClose("/inventario/agregar-producto")}>
-        <Typography variant="inherit" noWrap>
-          Productos
+          Gestión de persona
         </Typography>
       </MenuItem>
     </Menu>
   )
 }
 
-export default MenuInventario
+export default MenuPersona

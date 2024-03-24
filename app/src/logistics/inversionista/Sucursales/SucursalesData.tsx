@@ -8,7 +8,15 @@ const useData = () => {
       direccion: "",
       id: "", // Only modify Mode
     },
+    assignData: {
+      open: false,
+      loading: false,
+      error: false,
+      id: "",
+      servicioId: "",
+    },
     suspendData: {
+      message: "",
       estado: false,
       id: "",
     },
@@ -18,6 +26,8 @@ const useData = () => {
     addModalOpen: false,
     createDireccionFieldFullWidth: false,
     sucursalesRows: [],
+    serviciosData: [],
+    serviciosSucursalRows: [],
     modifyMode: false,
     suspenderPopover: { open: false, anchorEl: null },
   }

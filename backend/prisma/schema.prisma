@@ -51,12 +51,12 @@ model Servicio {
     nombre String @db.VarChar(60)
     precio Decimal @db.Decimal(11,2)
     descripcion String @db.VarChar(255)
-    estado Boolean @default(true) // true: Activo, false: Inactivo
     propietarioId Int
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     propietario Usuario @relation(fields: [propietarioId], references: [id])
     consumoServicio ConsumoServicio[]
+    sucursalServicio SucursalServicio[]
 }
 
 model Sucursal {
@@ -71,12 +71,25 @@ model Sucursal {
     propietario Usuario @relation("sucursal",fields: [propietarioId], references: [id])
     ventas Ventas[]
     inventario Inventario[]
+    sucursalServicio SucursalServicio[]
+}
+
+model SucursalServicio {
+    estado Boolean @default(true) // true: Activo, false: Inactivo
+    creado_en DateTime @default(now())
+    actualizado_en DateTime @updatedAt
+    servicioId Int 
+    sucursalId Int
+    servicio Servicio @relation(fields: [servicioId], references: [id])
+    sucursal Sucursal @relation(fields: [sucursalId], references: [id])
+    @@id([servicioId, sucursalId])
 }
 
 model Producto {
     id Int @id @default(autoincrement())
     nombre String @db.VarChar(35)
     precio Decimal @db.Decimal(11,2)
+    url_imagen String @default("")
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
     propietarioId Int
@@ -133,6 +146,7 @@ model VehiculoMantenimiento {
 
 model ConsumoServicio {
     detalle String @db.VarChar(500)
+    precio Decimal @db.Decimal(11,2)
     estado Int @db.TinyInt() @default(0) // 0: Pendiente, 1: En proceso, 2: Finalizado
     creado_en DateTime @default(now())
     actualizado_en DateTime @updatedAt
