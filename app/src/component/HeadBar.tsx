@@ -143,6 +143,17 @@ function HeadBar() {
                     Persona
                   </Typography>
                 </Button>
+                <Button
+                  aria-controls="vehiculoMenu"
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                  sx={{ py: "6px", px: "12px" }}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    Vehiculos
+                  </Typography>
+                </Button>
               </Box>
             </Box>
             <Box
