@@ -2,6 +2,13 @@ import { useData } from "@logistics/index/data"
 import { useMethod } from "@logistics/index/methods"
 import { JSXElementConstructor, ReactElement } from "react"
 
+export type TMenu = {
+  id: string
+  anchorEl: null | HTMLElement
+  open: boolean
+  handleClose: (route?: string) => void
+}
+
 export type TMessageType = "success" | "info" | "warning" | "error"
 
 export type TUserRole = "ADMIN" | "OPERADOR" | "INVERSIONISTA" | undefined

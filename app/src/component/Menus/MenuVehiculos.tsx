@@ -1,8 +1,7 @@
-import { Menu, MenuItem, Typography } from "@mui/material"
-import Fade from "@mui/material/Fade"
+import { Fade, Menu, MenuItem, Typography } from "@mui/material"
 import { TMenu } from "@type/default"
 
-export default function MenuPersona(props: TMenu) {
+export default function MenuVehiculos(props: TMenu) {
   return (
     <Menu
       id={props.id}
@@ -14,9 +13,9 @@ export default function MenuPersona(props: TMenu) {
       }}
       TransitionComponent={Fade}
     >
-      <MenuItem onClick={() => props.handleClose("/persona/gestion-persona")}>
+      <MenuItem onClick={() => props.handleClose("/vehiculo/gestion-vehiculo")}>
         <Typography variant="inherit" noWrap>
-          Gestión de persona
+          Gestión de vehiculos
         </Typography>
       </MenuItem>
     </Menu>

@@ -3,7 +3,7 @@ import { Button, Card, CardContent, CardHeader } from "@mui/material"
 import { useLayoutEffect } from "react"
 import { useApp } from "src/context/AppContext"
 import { useServicios } from "src/context/InversionistaContext"
-import AgregarServiciosModal from "./servicios/agregarServiciosModal"
+import AgregarServiciosModal from "./Servicios/agregarServiciosModal"
 
 const Servicios = () => {
   const state = useServicios()

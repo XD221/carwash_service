@@ -5,6 +5,7 @@ import Cuenta from "@routes/CuentaRoute"
 import Inventario from "@routes/InventarioRoute"
 import Inversionista from "@routes/InversionistaRoute"
 import Persona from "@routes/PersonaRoute"
+import Vehiculo from "@routes/VehiculoRoute"
 
 const RutaGeneralRoute = [
   {
@@ -26,6 +27,10 @@ const RutaGeneralRoute = [
   {
     path: "persona",
     children: Persona,
+  },
+  {
+    path: "vehiculo",
+    children: Vehiculo,
   },
   {
     path: "login",

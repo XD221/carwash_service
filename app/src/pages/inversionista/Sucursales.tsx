@@ -3,9 +3,9 @@ import { Button, Card, CardContent, CardHeader } from "@mui/material"
 import { useLayoutEffect } from "react"
 import { useApp } from "src/context/AppContext"
 import { useSucursales } from "src/context/InversionistaContext"
-import AgregarSucursalesModal from "./sucursales/agregarSucursalesModal"
 import PopoverConfirm from "@component/PopoverConfirm"
-import VistaServiciosSucuralModal from "./sucursales/vistaServiciosSucuralModal"
+import AgregarSucursalesModal from "./Sucursales/agregarSucursalesModal"
+import VistaServiciosSucuralModal from "./Sucursales/vistaServiciosSucuralModal"
 
 const Sucursales = () => {
   const state = useSucursales()

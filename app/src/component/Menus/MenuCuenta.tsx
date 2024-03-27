@@ -1,17 +1,8 @@
 import { Menu, MenuItem, Typography } from "@mui/material"
 import Fade from "@mui/material/Fade"
+import { TMenu } from "@type/default"
 
-const MenuCuenta = ({
-  id,
-  anchorEl,
-  open,
-  handleClose,
-}: {
-  id: string
-  anchorEl: null | HTMLElement
-  open: boolean
-  handleClose: (route?: string) => void
-}) => {
+const MenuCuenta = ({ id, anchorEl, open, handleClose }: TMenu) => {
   return (
     <Menu
       id={id}

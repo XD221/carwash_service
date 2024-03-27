@@ -3,6 +3,7 @@ import MenuCuenta from "./Menus/MenuCuenta"
 import MenuInventario from "./Menus/MenuInventario"
 import MenuInversionista from "./Menus/MenuInversionista"
 import MenuPersona from "./Menus/MenuPersona"
+import MenuVehiculos from "./Menus/MenuVehiculos"
 
 const MenuController = ({
   id,
@@ -17,6 +18,7 @@ const MenuController = ({
     operador: "operadorMenu",
     sucursal: "sucursalMenu",
     persona: "personaMenu",
+    vehiculo: "vehiculoMenu",
   },
   handleClose,
 }: {
@@ -32,6 +34,7 @@ const MenuController = ({
     operador: string
     sucursal: string
     persona: string
+    vehiculo: string
   }
   handleClose: (route?: string) => void
 }) => {
@@ -80,7 +83,17 @@ const MenuController = ({
         handleClose={handleClose}
       />
     )
-  else return <></>
+  else if (controlName === menuNames.vehiculo)
+    return (
+      <MenuVehiculos
+        id={menuNames.vehiculo}
+        anchorEl={anchorEl}
+        open={open}
+        handleClose={handleClose}
+      />
+    )
+
+  return <></>
 }
 
 export default MenuController
