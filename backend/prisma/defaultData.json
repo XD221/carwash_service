@@ -1,0 +1,249 @@
+[
+  {
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "telefono": "12345678",
+    "direccion": "343 Elm St",
+    "correo": "juan_perez314@hotmail.com",
+    "ci": "1234567",
+    "usuario": {
+      "username": "jperez",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "ADMIN"
+    }
+  },
+  {
+    "nombre": "Maria",
+    "apellido": "Lopez",
+    "telefono": "98765432",
+    "direccion": "123 Main St",
+    "correo": "maria_lopez462@hotmail.com",
+    "ci": "2604341",
+    "usuario": {
+      "username": "mlopez",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "ADMIN"
+    }
+  },
+  {
+    "nombre": "Pedro",
+    "apellido": "Gomez",
+    "telefono": "56789012",
+    "direccion": "456 Elm St",
+    "correo": "pedro_gomez767@hotmail.com",
+    "ci": "9876543",
+    "usuario": {
+      "username": "pgomez",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "INVERSIONISTA"
+    }
+  },
+  {
+    "nombre": "Laura",
+    "apellido": "Rodriguez",
+    "telefono": "34567890",
+    "direccion": "789 Oak St",
+    "correo": "laura_rodriguez534@hotmail.com",
+    "ci": "5432109",
+    "usuario": {
+      "username": "lrodriguez",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "INVERSIONISTA"
+    }
+  },
+  {
+    "nombre": "Carlos",
+    "apellido": "Gonzalez",
+    "telefono": "90123456",
+    "direccion": "321 Pine St",
+    "correo": null,
+    "ci": "2109876",
+    "usuario": {
+      "username": "cgonzales",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "OPERADOR"
+    }
+  },
+  {
+    "nombre": "Ana",
+    "apellido": "Martinez",
+    "telefono": "67890123",
+    "direccion": "654 Maple St",
+    "correo": null,
+    "ci": "7890123",
+    "usuario": {
+      "username": "amartinez",
+      "password": "bc657b0057a559ff826a1ca3413d135fcd4089b573fb9c4fa78514089e16edb8f3a96f8d73bbd80756c3f285dafa8d851f369fbb132e137c6af7b77979b910ad",
+      "role": "OPERADOR"
+    }
+  },
+  {
+    "nombre": "Luis",
+    "apellido": "Sanchez",
+    "telefono": "23456789",
+    "direccion": "987 Cedar St",
+    "correo": null,
+    "ci": "4567890",
+    "usuario": {
+      "username": "lsanchez",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "ADMIN"
+    }
+  },
+  {
+    "nombre": "Sofia",
+    "apellido": "Hernandez",
+    "telefono": "89012345",
+    "direccion": "210 Walnut St",
+    "correo": null,
+    "ci": "3214064",
+    "usuario": {
+      "username": "shernandez",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "ADMIN"
+    }
+  },
+  {
+    "nombre": "Diego",
+    "apellido": "Torres",
+    "telefono": "45678901",
+    "direccion": "543 Birch St",
+    "correo": null,
+    "ci": "7654321",
+    "usuario": {
+      "username": "dtorres",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "INVERSIONISTA"
+    }
+  },
+  {
+    "nombre": "Fernanda",
+    "apellido": "Ramirez",
+    "telefono": "01234567",
+    "direccion": "876 Spruce St",
+    "correo": null,
+    "ci": "8967453",
+    "usuario": {
+      "username": "framirez",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "INVERSIONISTA"
+    }
+  },
+  {
+    "nombre": "Ricardo",
+    "apellido": "Luna",
+    "telefono": "76543210",
+    "direccion": "109 Cherry St",
+    "correo": null,
+    "ci": "5264258",
+    "usuario": {
+      "username": "rluna",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "OPERADOR",
+      "personaId": 11
+    }
+  },
+  {
+    "nombre": "Mario",
+    "apellido": "Flores",
+    "telefono": "12345678",
+    "direccion": "432 Oak St",
+    "correo": null,
+    "ci": "4258643",
+    "usuario": {
+      "username": "mflores",
+      "password": "cc57dfe8332a817346e4f9ccb73e022c3ae2415b5fdf83fc5289f8a16eb8bf0959aa0c9f401bb209f39b532a1ed7c1be1a1da2d798c3419ac17d918b4ca00101",
+      "role": "OPERADOR"
+    }
+  },
+  {
+    "nombre": "Andrea",
+    "apellido": "Garcia",
+    "telefono": "87654321",
+    "direccion": null,
+    "correo": null,
+    "ci": "2381290",
+    "usuario": null
+  },
+  {
+    "nombre": "Roberto",
+    "apellido": "Hernandez",
+    "telefono": "12864258",
+    "direccion": null,
+    "correo": null,
+    "ci": "1642485",
+    "usuario": null
+  },
+  {
+    "nombre": "Isabella",
+    "apellido": "Lopez",
+    "telefono": "21098750",
+    "direccion": null,
+    "correo": null,
+    "ci": "3793471",
+    "usuario": null
+  },
+  {
+    "nombre": "Santiago",
+    "apellido": "Gomez",
+    "telefono": "78901248",
+    "direccion": null,
+    "correo": null,
+    "ci": "49214829",
+    "usuario": null
+  },
+  {
+    "nombre": "Valentina",
+    "apellido": "Rodriguez",
+    "telefono": "45678911",
+    "direccion": null,
+    "correo": null,
+    "ci": "4773732",
+    "usuario": null
+  },
+  {
+    "nombre": "Emilio",
+    "apellido": "Gonzalez",
+    "telefono": "03128034",
+    "direccion": null,
+    "correo": null,
+    "ci": "1268937",
+    "usuario": null
+  },
+  {
+    "nombre": "Camila",
+    "apellido": "Martinez",
+    "telefono": "78901227",
+    "direccion": null,
+    "correo": null,
+    "ci": "3571235",
+    "usuario": null
+  },
+  {
+    "nombre": "Mateo",
+    "apellido": "Sanchez",
+    "telefono": "23456789",
+    "direccion": null,
+    "correo": null,
+    "ci": "7421150",
+    "usuario": null
+  },
+  {
+    "nombre": "Luciana",
+    "apellido": "Torres",
+    "telefono": "90123456",
+    "direccion": null,
+    "correo": null,
+    "ci": "2381294",
+    "usuario": null
+  },
+  {
+    "nombre": "Sebastian",
+    "apellido": "Ramirez",
+    "telefono": "56789012",
+    "direccion": null,
+    "correo": null,
+    "ci": "2381298",
+    "usuario": null
+  }
+]
